@@ -1,39 +1,51 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import React, { useEffect } from 'react'
+import { Stack } from 'expo-router'
+import { useFonts } from 'expo-font'
+import { SplashScreen } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+SplashScreen.preventAutoHideAsync(); 
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+const RootLayout = () => {
+  return (
+    <Stack screenOptions={{
+        headerShown: false
+    }}>
+        <Stack.Screen name='index' />
+        <Stack.Screen name='(auth)' />
+        <Stack.Screen name='(main)' /> 
+    </Stack>
+  )
+}
+
+const AppLayout = () => {
+
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+    'RobotoExtraLight': require('../assets/fonts/RobotoMono-ExtraLight.ttf'),  
+    'RobotoLigtht': require('../assets/fonts/RobotoMono-Light.ttf'), 
+    'RobotoRegular': require('../assets/fonts/RobotoMono-Regular.ttf'), 
+    'RobotoMedium': require('../assets/fonts/RobotoMono-Medium.ttf'), 
+    'RobotoBold': require('../assets/fonts/RobotoMono-Bold.ttf'), 
+  }); 
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+    if(loaded){
+      SplashScreen.hideAsync(); 
     }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
+  }, [loaded]); 
+  
+  if(!loaded){
+    return null; 
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    <>
+      <RootLayout />
+      <StatusBar backgroundColor='#001d3d' style='light' /> 
+    </>
+  )
+
 }
+
+export default AppLayout; 
