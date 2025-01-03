@@ -68,6 +68,13 @@ const MainLayout = () => {
           animationDuration: 900
           }} 
         /> 
+        <Stack.Screen name='test/[id]' options={{
+          header: () => <CustomHeader />, 
+          presentation: 'fullScreenModal',
+          animation: 'slide_from_right',
+          animationDuration: 900
+          }} 
+        /> 
         <Stack.Screen name='modals/newTest' options={{
           header: () => <CustomHeader />, 
           presentation: 'fullScreenModal',
