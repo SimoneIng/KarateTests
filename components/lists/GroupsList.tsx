@@ -4,6 +4,7 @@ import { AthleteGroup } from '@/database/types'
 import { texts } from '@/styles/texts';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { Colors } from '@/constants/Colors';
 
 interface ListProps {
   data: AthleteGroup[], 
@@ -14,14 +15,19 @@ interface ItemProps {
 }
 
 const GroupCard = ({ data }: ItemProps) => {
+
+  const handleGroupPress = () => {
+    router.push(`/group/${data.group_id}`)
+  }
+  
   return (
     <TouchableOpacity
-      style={[styles.groupCardContainer]}
-      onPress={() => router.push(`/group/${data.athlete_group_id}`)}
+      style={[styles.groupCard, { backgroundColor: Colors.cardBackground }]}
+      onPress={handleGroupPress}
     >
       <View style={[styles.row]}>
-        <Text style={[styles.label, texts.label]}>Gruppo {data.group_name}</Text>
-        <Ionicons name='clipboard' color='#fff' size={24} /> 
+        <Text style={[{ color: Colors.primary }, texts.label]}>Gruppo {data.group_name}</Text>
+        <Ionicons name='clipboard' color={Colors.primary} size={24} /> 
       </View>
     </TouchableOpacity>
   )
@@ -32,16 +38,15 @@ const GroupsList = ({ data }: ListProps) => {
     <FlatList 
       style={[styles.list]}
       data={data}
-      keyExtractor={item => item.athlete_group_id}
+      keyExtractor={item => item.group_id.toString()}
       renderItem={({item}) => <GroupCard data={item} />}
     /> 
   )
 }
 
 const styles = StyleSheet.create({
-  groupCardContainer: {
-    borderRadius: 10, 
-    backgroundColor: '#ccc', 
+  groupCard: {
+    borderRadius: 10,
     padding: 10, 
     marginVertical: 5,
   }, 
@@ -53,9 +58,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center'
   }, 
-  label: {
-    color: 'white'
-  }
 })
 
 export default GroupsList; 

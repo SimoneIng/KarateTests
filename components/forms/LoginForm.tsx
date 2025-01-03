@@ -2,8 +2,9 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator,
 import React, { useState } from 'react'
 import { texts } from '@/styles/texts'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import useAuthStore from '@/database/state';
+import { useAuthStore } from '@/database/state';
 import { router } from 'expo-router';
+import { Colors } from '@/constants/Colors';
 
 const LoginForm = () => {
 
@@ -26,7 +27,7 @@ const LoginForm = () => {
     if(loading){
         return (
             <View style={[styles.form]}>
-                <ActivityIndicator size='large' color='#fff' /> 
+                <ActivityIndicator size='large' color={Colors.primary} /> 
             </View>
         )
     }
@@ -36,19 +37,20 @@ const LoginForm = () => {
 
         <View style={styles.container}>
             <View style={[styles.inputContainer]}>
-            <Text style={[styles.label, texts.label]}>Email</Text>
-            <TextInput style={[styles.input, texts.subLabel]} 
+            <Text style={[{ color: Colors.primary }, texts.label]}>Email</Text>
+            <TextInput style={[styles.input, texts.subLabel, { color: Colors.primary }]} 
                 placeholder='Inserisci Email'
-                placeholderTextColor='#ccc'
+                placeholderTextColor={Colors.secondary}
                 onChangeText={(string) => setEmail(string)}
             />
             </View>
 
             <View style={[styles.inputContainer]}>
-                <Text style={[styles.label, texts.label]}>Password</Text>
-                <TextInput style={[styles.input, texts.subLabel]} 
+                <Text style={[{ color: Colors.primary }, texts.label]}>Password</Text>
+                <TextInput style={[styles.input, texts.subLabel, { color: Colors.primary }]} 
                     placeholder='Inserisci Password'
-                    placeholderTextColor='#ccc'
+                    secureTextEntry={true}
+                    placeholderTextColor={Colors.secondary}
                     onChangeText={(string) => setPassword(string)}
                 />
             </View>
@@ -56,14 +58,14 @@ const LoginForm = () => {
 
         {
             error && 
-            <Text style={[styles.errorLabel, texts.tinyLabel]}>{error}</Text>
+            <Text style={[{ color: Colors.primary }, texts.tinyLabel]}>{error}</Text>
         }
 
-        <TouchableOpacity style={[styles.button]}
+        <TouchableOpacity style={[styles.button, { backgroundColor: Colors.cardBackground }]}
             onPress={handleSubmit}
         >
-            <Text style={[styles.label, texts.label]}>Accedi</Text>
-            <Ionicons name='log-in-outline' size={28} color='#fff' />
+            <Text style={[{ color: Colors.primary }, texts.label]}>Accedi</Text>
+            <Ionicons name='log-in-outline' size={28} color={Colors.primary} />
         </TouchableOpacity>
 
     </View>
@@ -86,22 +88,14 @@ const styles = StyleSheet.create({
         borderColor: '#ccc', 
         borderRadius: 10,
         padding: 10, 
-        color: 'white'
     }, 
     button: {
         borderRadius: 10, 
-        backgroundColor: '#06D6A0', 
         padding: 10,
         flexDirection: 'row', 
         alignItems: 'center', 
         justifyContent: 'center',
         gap: 10
-    }, 
-    label: {
-        color: 'white'
-    }, 
-    errorLabel: {
-        color: 'red'
     }
 })
 

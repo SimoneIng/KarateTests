@@ -3,27 +3,90 @@ interface Athlete {
     firstname: string, 
     lastname: string, 
     birthdate: Date, 
-    athlete_group_id: number, 
+    group_id: number, 
 }
 
 interface AthleteGroup {
-    athlete_group_id: number, 
+    group_id: number, 
     group_name: string, 
 }
 
-interface Exercize {
+interface TestType {
+  enum_value: string, 
+}
 
+interface StandardTestValues {
+    Altezza: number;
+    Peso: number;
+    Flessibilità: {
+      'In piedi': number;
+      'Seduto': number;
+    };
+    Rapidità: {
+      'N. mov skip 30sec': {
+        DX: number | null;
+        SX: number | null;
+      };
+      'Sec. 30 mov skip': {
+        DX: number | null;
+        SX: number | null;
+      };
+      'N. mov giaku 30sec': {
+        DX: number | null;
+        SX: number | null;
+      };
+      'Sec. 30 mov giaku': {
+        DX: number | null;
+        SX: number | null;
+      };
+      'N. mov mawashi 30sec': {
+        DX: number | null;
+        SX: number | null;
+      };
+      'Sec. 30 mov mawashi': {
+        DX: number | null;
+        SX: number | null;
+      };
+    };
+    Esplosività: {
+      Stiffness: {
+        'Prova 1': {
+          minimo: number;
+          massimo: number;
+          'temp. contatto': number;
+        };
+        'Prova 2': {
+          minimo: number;
+          massimo: number;
+          'temp. contatto': number;
+        };
+      };
+      'Squat Jump': {
+        'Prova 1': {
+          cmj: number;
+          'cmj braccia libere': number;
+        };
+        'Prova 2': {
+          cmj: number;
+          'cmj braccia libere': number;
+        };
+      };
+    };
+    'Navetta 8mt x 10': number;
 }
 
 interface Test {
-
-}
-
-interface TestLogs {
-
+    test_id: number, 
+    test_date: Date, 
+    type: string, 
+    test_values: StandardTestValues,
+    athlete_id: number 
 }
 
 export {
     Athlete, 
-    AthleteGroup
+    AthleteGroup,
+    Test, 
+    StandardTestValues,
+    TestType
 }

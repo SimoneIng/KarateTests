@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Redirect } from 'expo-router';
 import { useAuthStore } from '@/database/state';
 import { ActivityIndicator, View } from 'react-native';
+import { Colors } from '@/constants/Colors';
 
 const App = () => {
 
@@ -20,9 +21,9 @@ const App = () => {
                 flex: 1, 
                 justifyContent: 'center', 
                 alignItems: 'center', 
-                backgroundColor: '#001d3d'
+                backgroundColor: Colors.background
             }}>
-                <ActivityIndicator size='large' color='#fff' />
+                <ActivityIndicator size='large' color={Colors.primary} />
             </View>
         )
     }

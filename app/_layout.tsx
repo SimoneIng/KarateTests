@@ -3,6 +3,7 @@ import { Stack } from 'expo-router'
 import { useFonts } from 'expo-font'
 import { SplashScreen } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
+import { Colors } from '@/constants/Colors'
 
 SplashScreen.preventAutoHideAsync(); 
 
@@ -42,7 +43,7 @@ const AppLayout = () => {
   return (
     <>
       <RootLayout />
-      <StatusBar backgroundColor='#001d3d' style='light' /> 
+      <StatusBar backgroundColor={Colors.background} style='light' /> 
     </>
   )
 

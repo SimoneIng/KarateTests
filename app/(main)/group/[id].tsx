@@ -1,24 +1,39 @@
 import { View, Text, StyleSheet } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { texts } from '@/styles/texts'
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useDBStore } from '@/database/state';
+import { Athlete, AthleteGroup } from '@/database/types';
+import AthletesList from '@/components/lists/AthletesList';
+import FixedButton from '@/components/utils/FixedButton';
+import { Colors } from '@/constants/Colors';
 
 const GroupScreen = () => {
 
   const { id } = useLocalSearchParams(); 
-
-  const fetchGroup = async () => {
-
-  }
+  const { groups, athletes } = useDBStore(); 
+  const [group, setGroup] = useState<AthleteGroup | null>(null); 
+  const [groupAthletes, setGroupAthletes] = useState<Athlete[]>([]); 
 
   useEffect(() => {
-    
-    fetchGroup(); 
+    const group_id = parseInt(id as string); 
+    const group = groups.find(group => group.group_id === group_id);
+    if(group){
+      setGroup(group)
+      const atl = athletes.filter(athlete => athlete.group_id === group.group_id); 
+      setGroupAthletes(atl); 
+    }
   }, []); 
 
+  const handleNewAthletePress = () => {
+    router.push('/modals/newAthlete');
+  }
+
   return (
-    <View style={[styles.page]}>
-      <Text style={[texts.pageTitle, styles.textColor]}>Gruppo </Text>
+    <View style={[styles.page, { backgroundColor: Colors.background }]}>
+      <Text style={[texts.pageTitle, { color: Colors.primary }]}>Gruppo {group?.group_name}</Text>
+      <AthletesList data={groupAthletes} /> 
+      <FixedButton onClick={handleNewAthletePress} /> 
     </View>
   )
 }
@@ -26,12 +41,10 @@ const GroupScreen = () => {
 const styles = StyleSheet.create({
   page: {
     flex: 1, 
-    backgroundColor: '#001d3d', 
     paddingHorizontal: 20, 
+    gap: 20, 
+    paddingTop: 30
   }, 
-  textColor: {
-    color: 'white'
-  }
 })
 
 export default GroupScreen; 

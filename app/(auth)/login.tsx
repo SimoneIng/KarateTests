@@ -3,6 +3,7 @@ import React from 'react'
 import { texts } from '@/styles/texts'
 import LoginForm from '@/components/forms/LoginForm'
 import { router } from 'expo-router'
+import { Colors } from '@/constants/Colors'
 
 const LoginScreen = () => {
 
@@ -16,12 +17,12 @@ const LoginScreen = () => {
 
 const styles = StyleSheet.create({
     page: {
-        backgroundColor: '#001d3d',
+        backgroundColor: Colors.background, 
         flex: 1, 
         justifyContent: 'center'
     },
     text: {
-        color: 'white', 
+        color: Colors.primary, 
         textAlign: 'center'
     }
 })

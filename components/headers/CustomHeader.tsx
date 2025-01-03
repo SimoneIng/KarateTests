@@ -3,17 +3,18 @@ import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { Colors } from '@/constants/Colors';
 
 const CustomHeader = () => {
 
     const { top } = useSafeAreaInsets(); 
 
     return (
-        <View style={[styles.header, { paddingTop: top }]}>
+        <View style={[styles.header, { paddingTop: top, backgroundColor: Colors.background }]}>
             <TouchableOpacity 
                 onPress={() => router.back()}
             >
-                <Ionicons name='arrow-back-circle' size={36} color="#ccc" /> 
+                <Ionicons name='arrow-back-circle' size={36} color={Colors.primary} /> 
             </TouchableOpacity>
         </View>
     )
@@ -21,12 +22,10 @@ const CustomHeader = () => {
 
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: '#001d3d',
         padding: 20, 
+        borderBottomWidth: 0.5, 
+        borderColor: Colors.cardBackground,
       },
-      title: {
-        color: '#fff'
-      }
 })
 
 export default CustomHeader; 
