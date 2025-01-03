@@ -3,11 +3,8 @@ import React from 'react'
 import CustomButton from '../utils/CustomButton';
 import { texts } from '@/styles/texts';
 import { Colors } from '@/constants/Colors';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const NewGroupForm = () => {
-    
-    const { bottom } = useSafeAreaInsets(); 
 
     const handleNewGroup = () => {
 

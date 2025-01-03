@@ -44,7 +44,7 @@ const AthleteScreen = () => {
       </View>
       
       <View style={[{gap: 15}]}>
-        <Text style={[texts.title, { color: Colors.primary }]}>Test</Text>
+        <Text style={[texts.subTitle, { color: Colors.primary }]}>Lista Test</Text>
         <TestsList data={athleteTests} />
       </View>   
       <FixedButton onClick={handleNewTestPress} /> 

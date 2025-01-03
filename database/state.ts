@@ -33,7 +33,16 @@ interface DatabaseState {
   fetchTestTypes: () => Promise<void>, 
   fetchGroups: () => Promise<void>, 
   fetchAthletes: () => Promise<void>, 
-  fetchTests: () => Promise<void>
+  fetchTests: () => Promise<void>,
+
+  addTest: (athlete_id: number, type: string, testValues: any, date: Date) => Promise<void>, 
+  // addAthlete: () => Promise<void>, 
+  // addAthleteGroup: () => Promise<void>, 
+
+  // removeTest: () => Promise<void>, 
+  // removeAthlete: () => Promise<void>, 
+  // removeAthleteGroup: () => Promise<void>, 
+
 }
 
 const useAuthStore = create<AuthState>((set, get) => ({
@@ -186,6 +195,27 @@ const useDBStore = create<DatabaseState>((set, get) => ({
       set({ isLoadingTests: false });
     }
   },
+
+  addTest: async (athlete_id: number, type: string, testValues: any, date: Date) => {
+    try {
+      const { data, error } = await supabase
+      .from('test')
+      .insert([{
+        athlete_id: athlete_id,
+        test_values: testValues, 
+        test_date: date, 
+        type: type, 
+      }])
+      .select()
+
+      if(error) throw error;
+
+      console.log('Query Eseguita'); 
+      console.log(data); 
+    } catch(error) {
+      console.log('error', error); 
+    }
+  }, 
 
   // Inizializza le subscription per gli aggiornamenti realtime
   initRealtimeSubscriptions: () => {

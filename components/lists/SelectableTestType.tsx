@@ -3,19 +3,19 @@ import React, { useState } from 'react';
 import { useDBStore } from '@/database/state';
 import { Colors } from '@/constants/Colors';
 import { texts } from '@/styles/texts';
-import {  } from '@/database/types';
+import { TestType } from '@/database/types';
 
 interface Item {
-  testTypeString: string, 
+  testType: TestType; 
   isSelected: boolean;
-  onClick: (type: string) => void;
+  onClick: (type: TestType) => void;
 }
 
 interface ListProps {
-    onSelection: (type: string) => void; 
+    onSelection: (type: TestType) => void; 
 }
 
-const TestType = ({ testTypeString, isSelected, onClick }: Item) => {
+const TestTypeElement = ({ testType, isSelected, onClick }: Item) => {
   return (
     <TouchableOpacity
       style={[
@@ -24,9 +24,9 @@ const TestType = ({ testTypeString, isSelected, onClick }: Item) => {
           backgroundColor: isSelected ? Colors.accent : Colors.cardBackground,
         },
       ]}
-      onPress={() => onClick(testTypeString)} // Passa l'ID del gruppo selezionato
+      onPress={() => onClick(testType)} // Passa l'ID del gruppo selezionato
     >
-      <Text style={[texts.subLabel, styles.label]}>{testTypeString}</Text>
+      <Text style={[texts.subLabel, styles.label]}>{testType.enum_value}</Text>
     </TouchableOpacity>
   );
 };
@@ -36,9 +36,9 @@ const SelectableTestType = ({ onSelection }: ListProps) => {
   const { test_types } = useDBStore();
 
   // Stato per tracciare il gruppo selezionato
-  const [selectedTestType, setSelectedTestType] = useState<string | null>(null);
+  const [selectedTestType, setSelectedTestType] = useState<TestType | null>(null);
 
-  const handleGroupSelection = (testType: string) => {
+  const handleTestTypeSelection = (testType: TestType) => {
     setSelectedTestType(selectedTestType === testType ? null : testType);
     onSelection(testType); 
   };
@@ -50,10 +50,10 @@ const SelectableTestType = ({ onSelection }: ListProps) => {
         horizontal={true}
         data={test_types}
         renderItem={({ item }) => (
-          <TestType
-            testTypeString={item.enum_value}
-            isSelected={item.enum_value === selectedTestType} // Controlla se è il gruppo selezionato
-            onClick={handleGroupSelection}
+          <TestTypeElement
+            testType={item}
+            isSelected={item === selectedTestType} // Controlla se è il gruppo selezionato
+            onClick={handleTestTypeSelection}
           />
         )}
         keyExtractor={(item) => item.enum_value}

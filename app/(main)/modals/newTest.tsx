@@ -4,22 +4,20 @@ import { useLocalSearchParams } from 'expo-router'
 import { texts } from '@/styles/texts';
 import NewTestForm from '@/components/forms/NewTestForm';
 import { Colors } from '@/constants/Colors';
-import { Test } from '@/database/types';
-import { useDBStore } from '@/database/state';
+import { TestType } from '@/database/types';
 import SelectableTestType from '@/components/lists/SelectableTestType';
 
 const newTest = () => {
 
-  const { test_types } = useDBStore();  
   const { id, name } = useLocalSearchParams(); 
-  const [test, setTest] = useState<Test | null>(null); 
+  const [testType, setTestType] = useState<TestType | null>(null); 
 
   useEffect(() => {
   
   }, []); 
 
-  const handleTestTypeSelection = () => {
-
+  const handleTestTypeSelection = (testType: TestType) => {
+    setTestType(testType); 
   }
 
   return (
@@ -27,15 +25,19 @@ const newTest = () => {
       
       <View style={[styles.headerSection]}>
         <Text style={[texts.pageTitle, styles.title, { color: Colors.primary }]}>Nuovo Test</Text>
-        <Text style={[texts.label, styles.title, { color: Colors.secondary }]}>Atleta {name as string}</Text>
+        <Text style={[texts.label, styles.title, { color: Colors.secondary }]}>Atleta: {name as string}</Text>
       </View>
 
-      <View style={[styles.contentSection]}>
-        <Text style={[texts.label, styles.label]}>Seleziona Tipologia di Test</Text>
-        <SelectableTestType onSelection={handleTestTypeSelection} />
-      </View>
+      {testType ? 
+        <NewTestForm athlete_id={parseInt(id as string)} /> 
+        : (
+            <View style={[styles.contentSection]}>
+              <Text style={[texts.label, styles.label]}>Seleziona Tipologia di Test</Text>
+              <SelectableTestType onSelection={handleTestTypeSelection} />
+            </View>
+          )
+      }
       
-      <NewTestForm /> 
     </ScrollView>
   )
 }
@@ -43,6 +45,7 @@ const newTest = () => {
 const styles = StyleSheet.create({
   page: {
     paddingHorizontal: 20, 
+    marginBottom: 30, 
   },
   title: {
     textAlign: 'center', 
