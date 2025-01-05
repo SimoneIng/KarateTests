@@ -11,7 +11,10 @@ SplashScreen.preventAutoHideAsync();
 const RootLayout = () => {
   return (
     <Stack screenOptions={{
-        headerShown: false
+        headerShown: false,
+        contentStyle: {
+          backgroundColor: Colors.background
+        }
     }}>
         <Stack.Screen name='index' />
         <Stack.Screen name='(auth)' />

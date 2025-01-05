@@ -37,7 +37,7 @@ const TestsList = ({ data }: ListProps) => {
     <FlatList 
       style={[styles.list]}
       data={data}
-      keyExtractor={item => item.athlete_id.toString()}
+      keyExtractor={item => item.test_id.toString()}
       renderItem={({item}) => <TestCard data={item} />}
     /> 
   )

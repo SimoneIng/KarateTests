@@ -6,6 +6,7 @@ import { useDBStore } from "@/database/state";
 import { ActivityIndicator, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Colors } from "@/constants/Colors";
+import ModalHeader from "@/components/headers/ModalHeader";
 
 const MainLayout = () => {
 
@@ -76,21 +77,21 @@ const MainLayout = () => {
           }} 
         /> 
         <Stack.Screen name='modals/newTest' options={{
-          header: () => <CustomHeader />, 
+          header: () => <ModalHeader />, 
           presentation: 'fullScreenModal',
           animation: 'slide_from_right',
           animationDuration: 900
           }} 
         /> 
         <Stack.Screen name='modals/newAthlete' options={{
-          header: () => <CustomHeader />, 
+          header: () => <ModalHeader />, 
           presentation: 'fullScreenModal',
           animation: 'slide_from_right',
           animationDuration: 900
           }} 
         />
         <Stack.Screen name='modals/newGroup' options={{
-          header: () => <CustomHeader />, 
+          header: () => <ModalHeader />, 
           presentation: 'fullScreenModal',
           animation: 'slide_from_right',
           animationDuration: 900

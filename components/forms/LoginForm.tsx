@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator, Alert } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator, Alert, KeyboardAvoidingView, Platform } from 'react-native'
 import React, { useState } from 'react'
 import { texts } from '@/styles/texts'
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -33,6 +33,10 @@ const LoginForm = () => {
     }
 
   return (
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+     
     <View style={[styles.form]}>
 
         <View style={styles.container}>
@@ -69,6 +73,8 @@ const LoginForm = () => {
         </TouchableOpacity>
 
     </View>
+    </KeyboardAvoidingView>
+
   )
 }
 

@@ -19,11 +19,10 @@ const styles = StyleSheet.create({
     flex: 1, 
     paddingHorizontal: 20, 
     paddingTop: 30, 
-    gap: 20
+    gap: 20,
   },
   text: {
     color: Colors.primary, 
-
   }
 })
 

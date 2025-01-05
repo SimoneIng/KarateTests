@@ -23,7 +23,7 @@ const GroupScreen = () => {
       const atl = athletes.filter(athlete => athlete.group_id === group.group_id); 
       setGroupAthletes(atl); 
     }
-  }, []); 
+  }, [athletes]); 
 
   const handleNewAthletePress = () => {
     router.push('/modals/newAthlete');

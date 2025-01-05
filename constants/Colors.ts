@@ -10,4 +10,5 @@ export const Colors = {
   accent: '#00ADB5', 
   success: '#3c6e71', 
   cardBackground: '#393E46',  
+  error: 'red'
 };

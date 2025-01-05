@@ -12,7 +12,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
 
-  }, []); 
+  }, [groups]); 
 
   const handleNewGroupPress = () => {
     router.push('/modals/newGroup');

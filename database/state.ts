@@ -36,12 +36,12 @@ interface DatabaseState {
   fetchTests: () => Promise<void>,
 
   addTest: (athlete_id: number, type: string, testValues: any, date: Date) => Promise<void>, 
-  // addAthlete: () => Promise<void>, 
-  // addAthleteGroup: () => Promise<void>, 
+  addAthlete: (firstname: string, lastname: string, birthdate: Date, groupId: number) => Promise<void>, 
+  addAthleteGroup: (groupName: string) => Promise<void>, 
 
-  // removeTest: () => Promise<void>, 
-  // removeAthlete: () => Promise<void>, 
-  // removeAthleteGroup: () => Promise<void>, 
+  removeTest: (testId: number) => Promise<void>, 
+  removeAthlete: (athleteId: number) => Promise<void>, 
+  removeAthleteGroup: (groupId: number) => Promise<void>, 
 
 }
 
@@ -210,12 +210,114 @@ const useDBStore = create<DatabaseState>((set, get) => ({
 
       if(error) throw error;
 
-      console.log('Query Eseguita'); 
-      console.log(data); 
+      set((state) => {
+        return { tests: [...state.tests, data[0] as Test] }
+      }); 
+
+    } catch(error) {
+        console.log('error', error); 
+    }
+  }, 
+
+  addAthlete: async (firstname: string, lastname: string, birthdate: Date, groupId: number) => {
+    try {
+      const { data, error } = await supabase
+      .from('athlete')
+      .insert([{
+        firstname: firstname, 
+        lastname: lastname, 
+        birthdate: birthdate, 
+        group_id: groupId
+      }])
+      .select()
+
+      if(error) throw error; 
+
+      set((state) => {
+        return { athletes: [...state.athletes, data[0] as Athlete] }
+      }); 
+
+    } catch (error) {
+        console.log('error', error); 
+     }
+  }, 
+
+  addAthleteGroup: async (groupName: string) => {
+    try {
+      const { data, error } = await supabase
+      .from('athlete_group')
+      .insert([{
+        group_name: groupName, 
+      }])
+      .select() 
+
+      if(error) throw error; 
+
+      set((state) => {
+        return { groups: [...state.groups, data[0] as AthleteGroup] }
+      })
+
     } catch(error) {
       console.log('error', error); 
     }
+  },
+
+  removeTest: async (testId: number) => {
+    try {
+      const { error } = await supabase
+      .from('test')
+      .delete()
+      .eq('test_id', testId) 
+
+      if(error) throw error; 
+
+      set((state) => { 
+        const updatedTest = state.tests.filter(test => test.test_id !== testId); 
+        return { tests: updatedTest }
+      }); 
+
+    } catch(error) {
+      console.log('Error', error); 
+    }
   }, 
+
+  removeAthlete: async (athleteId: number) => {
+    try {
+      const { error } = await supabase
+      .from('athlete')
+      .delete()
+      .eq('athlete_id', athleteId) 
+
+      if(error) throw error; 
+
+      set((state) => { 
+        const updatedAthletes = state.athletes.filter(at => at.athlete_id !== athleteId); 
+        return { athletes: updatedAthletes }
+      }); 
+
+    } catch(error) {
+      console.log('Error', error); 
+    }
+  }, 
+
+  removeAthleteGroup: async (groupId: number) => {
+    try {
+      const { error } = await supabase
+      .from('athlete_group')
+      .delete()
+      .eq('group_id', groupId) 
+
+      if(error) throw error; 
+
+      set((state) => { 
+        const updatedGroups = state.groups.filter(gr => gr.group_id !== groupId); 
+        return { groups: updatedGroups }
+      }); 
+
+    } catch(error) {
+      console.log('Error', error); 
+    }
+  },
 
   // Inizializza le subscription per gli aggiornamenti realtime
   initRealtimeSubscriptions: () => {
@@ -229,19 +331,23 @@ const useDBStore = create<DatabaseState>((set, get) => ({
       console.log('Change Received', payload); 
       const { eventType, new: newRecord, old: oldRecord } = payload; 
 
-      switch(eventType){
-        case 'INSERT': 
-          console.log(newRecord)
-        break; 
-
-        case 'UPDATE': 
-          
-        break; 
-
-        case 'DELETE': 
-          console.log(oldRecord)
-        break; 
-      }
+      set((state) => {
+        let updatedGroups = [...state.groups];
+        switch (eventType) {
+          case 'INSERT':
+            updatedGroups.push(newRecord as AthleteGroup);
+            break;
+          case 'UPDATE':
+            updatedGroups = updatedGroups.map((group) =>
+              group.group_id === newRecord.group_id ? newRecord as AthleteGroup : group
+            );
+            break;
+          case 'DELETE':
+            updatedGroups = updatedGroups.filter((group) => group.group_id !== oldRecord.group_id);
+            break;
+        }
+        return { groups: updatedGroups };
+      });
 
     }
     ).subscribe();
@@ -251,6 +357,26 @@ const useDBStore = create<DatabaseState>((set, get) => ({
     { event: '*', schema: 'public', table: 'athlete' },
     (payload) => {
       console.log('Chage Received', payload); 
+      const { eventType, new: newRecord, old: oldRecord } = payload; 
+
+      set((state) => {
+        let updatedAthletes = [...state.athletes];
+        switch (eventType) {
+          case 'INSERT':
+            updatedAthletes.push(newRecord as Athlete);
+            break;
+          case 'UPDATE':
+            updatedAthletes = updatedAthletes.map((athlete) =>
+              athlete.athlete_id === newRecord.athlete_id ? newRecord as Athlete : athlete
+            );
+            break;
+          case 'DELETE':
+            updatedAthletes = updatedAthletes.filter((athlete) => athlete.athlete_id !== oldRecord.athlete_id);
+            break;
+        }
+        return { athletes: updatedAthletes };
+      });
+
     }
     ).subscribe(); 
 
@@ -259,13 +385,33 @@ const useDBStore = create<DatabaseState>((set, get) => ({
     { event: '*', schema: 'public', table: 'test' },
     (payload) => {
       console.log('Chage Received', payload); 
+      const { eventType, new: newRecord, old: oldRecord } = payload;
+
+      set((state) => {
+        let updatedTests = [...state.tests]; 
+        
+        switch(eventType){
+          case 'INSERT': 
+            updatedTests.push(newRecord as Test)
+          break; 
+          case 'UPDATE': 
+            updatedTests = updatedTests.map((test) => 
+              test.test_id === newRecord.test_id ? newRecord as Test : test 
+            )
+          break; 
+          case 'DELETE':  
+            updatedTests = updatedTests.filter((test) => test.test_id !== oldRecord.test_id); 
+          break; 
+        }
+
+        return { tests: updatedTests }; 
+      })
     }
     ).subscribe();
 
-    channels.push(athleteChannels, testChannels, groupChannels)
+    channels.push(groupChannels, athleteChannels, testChannels); 
 
     set({ subscriptions: channels }); 
-
   },
 }));
 

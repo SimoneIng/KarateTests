@@ -23,7 +23,7 @@ const AthleteScreen = () => {
       const atTests = tests.filter(test => test.athlete_id === athlete.athlete_id)
       setAthleteTests(atTests)
     }
-  }, []); 
+  }, [tests]); 
 
   const handleNewTestPress = () => {
     router.push({

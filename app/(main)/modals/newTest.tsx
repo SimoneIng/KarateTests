@@ -1,4 +1,4 @@
-import { ScrollView, Text, View, StyleSheet } from 'react-native'
+import { ScrollView, Text, View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { texts } from '@/styles/texts';
@@ -21,7 +21,10 @@ const newTest = () => {
   }
 
   return (
-    <ScrollView style={[styles.page, { backgroundColor: Colors.background }]}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+    <ScrollView showsVerticalScrollIndicator={false} style={[styles.page, { backgroundColor: Colors.background }]}>
       
       <View style={[styles.headerSection]}>
         <Text style={[texts.pageTitle, styles.title, { color: Colors.primary }]}>Nuovo Test</Text>
@@ -37,15 +40,16 @@ const newTest = () => {
             </View>
           )
       }
-      
+
     </ScrollView>
+    </KeyboardAvoidingView>
   )
 }
 
 const styles = StyleSheet.create({
   page: {
     paddingHorizontal: 20, 
-    marginBottom: 30, 
+    marginBottom: 10
   },
   title: {
     textAlign: 'center', 

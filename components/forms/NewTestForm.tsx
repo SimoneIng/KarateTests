@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, StyleSheet, TextInput, Text, Alert } from 'react-native';
+import { View, ScrollView, StyleSheet, TextInput, Text, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { Colors } from '@/constants/Colors';
 import CustomButton from '../utils/CustomButton';
@@ -42,9 +42,10 @@ const TestForm = ({ athlete_id }: Props) => {
   );
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       
       <View style={styles.section}>
+      <Text style={[texts.subTitle, styles.sectionTitle]}>Generali</Text>
         {renderInput('Altezza', 'Altezza', control)}
         {renderInput('Peso', 'Peso', control)}
       </View>
@@ -108,14 +109,14 @@ const TestForm = ({ athlete_id }: Props) => {
       </View>
 
       <CustomButton title="Aggiungi" handleClick={handleSubmit(onSubmit, () => Alert.alert("Errore", "Campi Mancanti"))} /> 
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    paddingVertical: 10
   },
   section: {
     marginBottom: 20,
