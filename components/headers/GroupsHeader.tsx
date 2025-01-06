@@ -3,12 +3,17 @@ import React from 'react'
 import { texts } from '@/styles/texts'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Colors } from '@/constants/Colors'
+import { Platform } from 'react-native'
 
 const GroupsHeader = () => {
 
   const { top } = useSafeAreaInsets(); 
   return ( 
-    <View style={[styles.header, { paddingTop: top, padding: 20 }]}>
+    <View style={[styles.header, 
+      { 
+        paddingTop: Platform.OS === 'ios' ? top : top+10, 
+        padding: 20,
+      }]}>
       <Text style={[{ color: Colors.primary }, texts.title]}>Gruppi</Text>
     </View>
   )

@@ -7,6 +7,7 @@ import { texts } from '@/styles/texts';
 import { StandardTestValues } from '@/database/types';
 import { useDBStore } from '@/database/state';
 import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 interface Props {
   athlete_id: number, 
@@ -24,7 +25,10 @@ const TestForm = ({ athlete_id }: Props) => {
 
   const renderInput = (name: string, label: string, control: any) => (
     <View style={styles.inputContainer}>
-      <Text style={[texts.subLabel , styles.label, {marginLeft: 10}]}>{label}</Text>
+      <View style={{ gap: 10, flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
+        <Ionicons name='ellipse' size={14} color={Colors.primary} />
+        <Text style={[texts.subLabel , styles.label]}>- {label}</Text>
+      </View>
       <Controller
         control={control}
         name={name}
@@ -62,19 +66,19 @@ const TestForm = ({ athlete_id }: Props) => {
         {renderInput('Rapidità.N. mov skip 30sec', 'N. mov skip 30sec', control)}
         {renderInput('Rapidità.Sec. 30 mov skip', 'Sec. 30 mov skip', control)}
         
-        <Text style={[texts.label, styles.subSectionTitle]}>N. mov giaku 30sec</Text>
+        <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>N. mov giaku 30sec</Text>
         {renderInput('Rapidità.N. mov giaku 30sec.DX', 'DX', control)}
         {renderInput('Rapidità.N. mov giaku 30sec.SX', 'SX', control)}
         
-        <Text style={[texts.label, styles.subSectionTitle]}>Sec. 30 mov giaku</Text>
+        <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>Sec. 30 mov giaku</Text>
         {renderInput('Rapidità.Sec. 30 mov giaku.DX', 'DX', control)}
         {renderInput('Rapidità.Sec. 30 mov giaku.SX', 'SX', control)}
         
-        <Text style={[texts.label, styles.subSectionTitle]}>N. mov mawashi 30sec</Text>
+        <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>N. mov mawashi 30sec</Text>
         {renderInput('Rapidità.N. mov mawashi 30sec.DX', 'DX', control)}
         {renderInput('Rapidità.N. mov mawashi 30sec.SX', 'SX', control)}
         
-        <Text style={[texts.label, styles.subSectionTitle]}>Sec. 30 mov mawashi</Text>
+        <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>Sec. 30 mov mawashi</Text>
         {renderInput('Rapidità.Sec. 30 mov mawashi.DX', 'DX', control)}
         {renderInput('Rapidità.Sec. 30 mov mawashi.SX', 'SX', control)}
       </View>
@@ -83,21 +87,21 @@ const TestForm = ({ athlete_id }: Props) => {
       <View style={styles.section}>
         <Text style={[texts.subTitle, styles.sectionTitle]}>Esplosività</Text>
         
-        <Text style={[texts.label, styles.subSectionTitle]}>Stiffness - Prova 1</Text>
+        <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>Stiffness - Prova 1</Text>
         {renderInput('Esplosività.Stiffness.Prova 1.Minimo', 'Minimo', control)}
         {renderInput('Esplosività.Stiffness.Prova 1.Massimo', 'Massimo', control)}
         {renderInput('Esplosività.Stiffness.Prova 1.Temp. contatto', 'Temp. contatto', control)}
         
-        <Text style={[texts.label, styles.subSectionTitle]}>Stiffness - Prova 2</Text>
+        <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>Stiffness - Prova 2</Text>
         {renderInput('Esplosività.Stiffness.Prova 2.Minimo', 'Minimo', control)}
         {renderInput('Esplosività.Stiffness.Prova 2.Massimo', 'Massimo', control)}
         {renderInput('Esplosività.Stiffness.Prova 2.Temp. contatto', 'Temp. contatto', control)}
         
-        <Text style={[texts.label, styles.subSectionTitle]}>Squat Jump - Prova 1</Text>
+        <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>Squat Jump - Prova 1</Text>
         {renderInput('Esplosività.Squat Jump.Prova 1.cmj', 'CMJ', control)}
         {renderInput('Esplosività.Squat Jump.Prova 1.cmj braccia libere', 'CMJ braccia libere', control)}
         
-        <Text style={[texts.label, styles.subSectionTitle]}>Squat Jump - Prova 2</Text>
+        <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>Squat Jump - Prova 2</Text>
         {renderInput('Esplosività.Squat Jump.Prova 2.cmj', 'CMJ', control)}
         {renderInput('Esplosività.Squat Jump.Prova 2.cmj braccia libere', 'CMJ braccia libere', control)}
       </View>
@@ -116,8 +120,7 @@ const TestForm = ({ athlete_id }: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 10,
-     
+    paddingTop: 10,
   },
   section: {
     marginBottom: 20,

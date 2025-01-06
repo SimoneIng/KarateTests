@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Text, Platform } from 'react-native'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -11,7 +11,11 @@ const ModalHeader = () => {
     const { top } = useSafeAreaInsets(); 
 
     return (
-        <View style={[styles.header, { paddingTop: top, backgroundColor: Colors.background }]}>
+        <View style={[styles.header, { 
+            paddingTop: Platform.OS === 'ios' ? top : top+10, 
+            padding: 20, 
+            backgroundColor: Colors.background 
+        }]}>
             <TouchableOpacity 
                 onPress={() => router.back()}
             >

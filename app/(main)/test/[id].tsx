@@ -68,14 +68,14 @@ const TestScreen = () => {
   };
 
   return (
-    <ScrollView style={[styles.page]}>
+    <ScrollView showsVerticalScrollIndicator={false} style={[styles.page]}>
 
       <View style={[styles.pageHeader]}>
         <Text style={[texts.label, styles.textColor]}>{test?.type}</Text>
         <Text style={[texts.label, styles.textColor]}>{test?.test_date.toString()}</Text>
       </View>
 
-      <View style={[{paddingTop: 30 }]}>
+      <View style={[{paddingTop: 20, paddingBottom: 40 }]}>
         <RecursiveValueViewer data={test && test.test_values} />
       </View>
 
@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background, 
     paddingHorizontal: 20, 
     paddingTop: 30,
-    marginBottom: 25, 
   }, 
   pageHeader: {
     flexDirection: 'row', 

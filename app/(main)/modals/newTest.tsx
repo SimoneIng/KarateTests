@@ -28,7 +28,7 @@ const newTest = () => {
     <ScrollView showsVerticalScrollIndicator={false} style={[styles.page, { backgroundColor: Colors.background }]}>
       
       <View style={[styles.headerSection]}>
-        <Text style={[texts.pageTitle, styles.title, { color: Colors.primary }]}>Nuovo Test</Text>
+        <Text style={[texts.title, styles.title, { color: Colors.primary }]}>Nuovo Test</Text>
         <Text style={[texts.label, styles.title, { color: Colors.secondary }]}>Atleta: {name as string}</Text>
       </View>
 
@@ -50,7 +50,6 @@ const newTest = () => {
 const styles = StyleSheet.create({
   page: {
     paddingHorizontal: 20, 
-    marginBottom: 10
   },
   title: {
     textAlign: 'center', 

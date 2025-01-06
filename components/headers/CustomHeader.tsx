@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Text, Platform } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -41,7 +41,10 @@ const CustomHeader = () => {
     }
 
     return (
-        <View style={[styles.header, { paddingTop: top, backgroundColor: Colors.background }]}>
+        <View style={[styles.header, { 
+            paddingTop: Platform.OS === 'ios' ? top : top+10, 
+            backgroundColor: Colors.background
+        }]}>
             <TouchableOpacity 
                 onPress={() => router.back()}
             >
@@ -50,7 +53,7 @@ const CustomHeader = () => {
 
             <TouchableOpacity
                 style={styles.button}
-                onPress={handleDelete}
+                onLongPress={handleDelete}
             >   
                 <Ionicons name='trash-bin-outline' size={21} color={Colors.primary} />
             </TouchableOpacity>
