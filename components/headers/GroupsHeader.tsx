@@ -17,7 +17,7 @@ const GroupsHeader = () => {
 const styles = StyleSheet.create({
   header: { 
     borderBottomWidth: 0.5, 
-    borderColor: Colors.cardBackground, 
+    borderColor: Colors.primary, 
     backgroundColor: Colors.background, 
   }
 })

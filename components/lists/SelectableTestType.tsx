@@ -4,6 +4,7 @@ import { useDBStore } from '@/database/state';
 import { Colors } from '@/constants/Colors';
 import { texts } from '@/styles/texts';
 import { TestType } from '@/database/types';
+import { FlashList } from '@shopify/flash-list';
 
 interface Item {
   testType: TestType; 
@@ -44,21 +45,20 @@ const SelectableTestType = ({ onSelection }: ListProps) => {
   };
 
   return (
-    <View>
-      <FlatList
-        contentContainerStyle={styles.list}
-        horizontal={true}
-        data={test_types}
-        renderItem={({ item }) => (
-          <TestTypeElement
-            testType={item}
-            isSelected={item === selectedTestType} // Controlla se è il gruppo selezionato
-            onClick={handleTestTypeSelection}
-          />
-        )}
-        keyExtractor={(item) => item.enum_value}
-      />
-    </View>
+    <FlatList
+      // estimatedItemSize={40}
+      contentContainerStyle={styles.list}
+      horizontal={true}
+      data={test_types}
+      renderItem={({ item }) => (
+        <TestTypeElement
+          testType={item}
+          isSelected={item === selectedTestType} // Controlla se è il gruppo selezionato
+          onClick={handleTestTypeSelection}
+        />
+      )}
+      keyExtractor={(item) => item.enum_value}
+    />
   );
 };
 

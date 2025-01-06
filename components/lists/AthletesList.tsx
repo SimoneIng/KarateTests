@@ -4,6 +4,7 @@ import { Athlete } from '@/database/types'
 import { texts } from '@/styles/texts';
 import { router } from 'expo-router';
 import { Colors } from '@/constants/Colors';
+import { FlashList } from "@shopify/flash-list";
 
 interface ListProps {
   data: Athlete[], 
@@ -25,7 +26,7 @@ const AthleteCard = ({ data }: ItemProps) => {
       onPress={handleAthletePress}
     >
       <View style={[styles.row]}>
-        <Text style={[{ color: Colors.primary }, texts.label]}>{data.firstname} {data.lastname}</Text>
+        <Text style={[{ color: Colors.primary }, texts.subLabel]}>{data.firstname} {data.lastname}</Text>
       </View>
     </TouchableOpacity>
   )
@@ -33,8 +34,8 @@ const AthleteCard = ({ data }: ItemProps) => {
 
 const AthletesList = ({ data }: ListProps) => {
   return (
-    <FlatList 
-      style={[styles.list]}
+    <FlashList
+      estimatedItemSize={60}
       data={data}
       keyExtractor={item => item.athlete_id.toString()}
       renderItem={({item}) => <AthleteCard data={item} />}

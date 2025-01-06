@@ -335,7 +335,9 @@ const useDBStore = create<DatabaseState>((set, get) => ({
         let updatedGroups = [...state.groups];
         switch (eventType) {
           case 'INSERT':
-            updatedGroups.push(newRecord as AthleteGroup);
+            if(state.groups.findIndex(group => group.group_id === newRecord.group_id) === -1){
+              updatedGroups.push(newRecord as AthleteGroup);
+            }
             break;
           case 'UPDATE':
             updatedGroups = updatedGroups.map((group) =>
@@ -363,7 +365,9 @@ const useDBStore = create<DatabaseState>((set, get) => ({
         let updatedAthletes = [...state.athletes];
         switch (eventType) {
           case 'INSERT':
-            updatedAthletes.push(newRecord as Athlete);
+            if(state.athletes.findIndex(athlete => athlete.athlete_id === newRecord.athlete_id) === -1){
+              updatedAthletes.push(newRecord as Athlete);
+            }
             break;
           case 'UPDATE':
             updatedAthletes = updatedAthletes.map((athlete) =>
@@ -392,7 +396,9 @@ const useDBStore = create<DatabaseState>((set, get) => ({
         
         switch(eventType){
           case 'INSERT': 
+          if(state.tests.findIndex(test => test.test_id === newRecord.test_id) === -1){
             updatedTests.push(newRecord as Test)
+          }
           break; 
           case 'UPDATE': 
             updatedTests = updatedTests.map((test) => 

@@ -49,9 +49,10 @@ const CustomHeader = () => {
             </TouchableOpacity>
 
             <TouchableOpacity
+                style={styles.button}
                 onPress={handleDelete}
             >   
-                <Text style={[texts.subLabel, { color: Colors.error }]}>Cancella</Text>
+                <Ionicons name='trash-bin-outline' size={21} color={Colors.primary} />
             </TouchableOpacity>
         </View>
     )
@@ -61,11 +62,13 @@ const styles = StyleSheet.create({
     header: {
         padding: 20, 
         borderBottomWidth: 0.5, 
-        borderColor: Colors.cardBackground,
+        borderColor: Colors.primary,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
       },
+      button: {
+      }
 })
 
 export default CustomHeader; 

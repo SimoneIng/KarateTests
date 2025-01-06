@@ -4,6 +4,7 @@ import { Athlete, Test } from '@/database/types'
 import { texts } from '@/styles/texts';
 import { router } from 'expo-router';
 import { Colors } from '@/constants/Colors';
+import { FlashList } from '@shopify/flash-list';
 
 interface ListProps {
   data: Test[], 
@@ -34,8 +35,8 @@ const TestCard = ({ data }: ItemProps) => {
 
 const TestsList = ({ data }: ListProps) => {
   return (
-    <FlatList 
-      style={[styles.list]}
+    <FlashList 
+      estimatedItemSize={65}
       data={data}
       keyExtractor={item => item.test_id.toString()}
       renderItem={({item}) => <TestCard data={item} />}

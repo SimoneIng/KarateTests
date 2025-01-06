@@ -39,12 +39,11 @@ const AthleteScreen = () => {
     <View style={[styles.page, {  backgroundColor: Colors.background }]}>
       
       <View style={[{gap: 15}]}>
-        <Text style={[texts.pageTitle, styles.textCenter, { color: Colors.primary }]}>{athlete?.firstname} {athlete?.lastname}</Text>
+        <Text style={[texts.title, styles.textCenter, { color: Colors.primary }]}>{athlete?.firstname} {athlete?.lastname}</Text>
         <Text style={[texts.subLabel, styles.textCenter, { color: Colors.primary }]}>Data di Nascita: {athlete?.birthdate.toString()}</Text>
       </View>
       
-      <View style={[{gap: 15}]}>
-        <Text style={[texts.subTitle, { color: Colors.primary }]}>Lista Test</Text>
+      <View style={[{gap: 15, flex: 1}]}>
         <TestsList data={athleteTests} />
       </View>   
       <FixedButton onClick={handleNewTestPress} /> 

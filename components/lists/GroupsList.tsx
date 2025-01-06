@@ -5,6 +5,7 @@ import { texts } from '@/styles/texts';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Colors } from '@/constants/Colors';
+import { FlashList } from '@shopify/flash-list';
 
 interface ListProps {
   data: AthleteGroup[], 
@@ -35,8 +36,8 @@ const GroupCard = ({ data }: ItemProps) => {
 
 const GroupsList = ({ data }: ListProps) => {
   return (
-    <FlatList 
-      style={[styles.list]}
+    <FlashList 
+      estimatedItemSize={65}
       data={data}
       keyExtractor={item => item.group_id.toString()}
       renderItem={({item}) => <GroupCard data={item} />}
