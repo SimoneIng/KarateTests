@@ -30,7 +30,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row', 
         alignItems: 'center', 
         justifyContent: 'space-between',
-        backgroundColor: Colors.cardBackground
+        backgroundColor: Colors.cardBackground,
+        borderWidth: 1, 
+        borderColor: Colors.primary
     }
 }); 
 

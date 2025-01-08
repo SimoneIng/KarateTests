@@ -46,7 +46,7 @@ const TestsList = ({ data }: ListProps) => {
 
 const styles = StyleSheet.create({
   testCard: {
-    borderRadius: 10, 
+    borderRadius: 6, 
     padding: 10, 
     marginVertical: 5,
     backgroundColor: Colors.cardBackground, 

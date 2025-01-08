@@ -25,9 +25,8 @@ const AthleteCard = ({ data }: ItemProps) => {
       style={[styles.athleteCard, { backgroundColor: Colors.cardBackground }]}
       onPress={handleAthletePress}
     >
-      <View style={[styles.row]}>
-        <Text style={[{ color: Colors.primary }, texts.subLabel]}>{data.firstname} {data.lastname}</Text>
-      </View>
+        <Text style={[{ color: Colors.primary, textAlign: 'center' }, texts.subLabel]}>{data.firstname}</Text>
+        <Text style={[{ color: Colors.primary, textAlign: 'center' }, texts.subLabel]}>{data.lastname}</Text>
     </TouchableOpacity>
   )
 }
@@ -36,27 +35,26 @@ const AthletesList = ({ data }: ListProps) => {
   return (
     <FlashList
       estimatedItemSize={60}
+      alwaysBounceVertical={true}
       data={data}
+      numColumns={2}
       keyExtractor={item => item.athlete_id.toString()}
       renderItem={({item}) => <AthleteCard data={item} />}
+      
     /> 
   )
 }
 
 const styles = StyleSheet.create({
   athleteCard: {
-    borderRadius: 10, 
+    borderRadius: 6, 
     padding: 10, 
-    marginVertical: 5,
+    margin: 5,
+    flex: 1, 
+    minHeight: 60, 
   }, 
   list: {
   }, 
-  row: {
-    padding: 10, 
-    flexDirection: 'row', 
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  }, 
-})
+}) 
 
 export default AthletesList; 

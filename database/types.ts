@@ -77,10 +77,17 @@ interface Test {
     athlete_id: number 
 }
 
+interface AthleteGroupWithAthletes {
+  group_id: number, 
+  group_name: string, 
+  athletes: Athlete[], 
+}
+
 export {
     Athlete, 
     AthleteGroup,
     Test, 
     StandardTestValues,
-    TestType
+    TestType, 
+    AthleteGroupWithAthletes
 }

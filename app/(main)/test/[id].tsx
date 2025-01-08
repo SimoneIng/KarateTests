@@ -72,7 +72,7 @@ const TestScreen = () => {
 
       <View style={[styles.pageHeader]}>
         <Text style={[texts.label, styles.textColor]}>{test?.type}</Text>
-        <Text style={[texts.label, styles.textColor]}>{test?.test_date.toString()}</Text>
+        <Text style={[texts.label, styles.textColor]}>{test?.test_date.toLocaleString()}</Text>
       </View>
 
       <View style={[{paddingTop: 20, paddingBottom: 40 }]}>

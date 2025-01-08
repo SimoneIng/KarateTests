@@ -2,7 +2,6 @@ import { View, StyleSheet } from 'react-native'
 import React, { useEffect } from 'react'
 import GroupsList from '@/components/lists/GroupsList'
 import { useDBStore } from '@/database/state'
-import FixedButton from '@/components/utils/FixedButton'
 import { Colors } from '@/constants/Colors'
 import { router } from 'expo-router'
 
@@ -11,7 +10,7 @@ const HomeScreen = () => {
   const { groups } = useDBStore();
 
   useEffect(() => {
-
+  
   }, [groups]); 
 
   const handleNewGroupPress = () => {
@@ -21,7 +20,7 @@ const HomeScreen = () => {
   return (
     <View style={[styles.page, { backgroundColor: Colors.background }]}>
       <GroupsList data={groups} /> 
-      <FixedButton onClick={handleNewGroupPress} />
+      {/* <FixedButton onClick={handleNewGroupPress} /> */}
     </View>
   )
 }
