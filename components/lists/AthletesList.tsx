@@ -40,7 +40,6 @@ const AthletesList = ({ data }: ListProps) => {
       numColumns={2}
       keyExtractor={item => item.athlete_id.toString()}
       renderItem={({item}) => <AthleteCard data={item} />}
-      
     /> 
   )
 }

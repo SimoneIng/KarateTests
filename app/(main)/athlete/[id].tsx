@@ -7,6 +7,7 @@ import { Athlete, Test } from '@/database/types';
 import FixedButton from '@/components/utils/FixedButton';
 import TestsList from '@/components/lists/TestsList';
 import { Colors } from '@/constants/Colors';
+import Statistics from '@/components/utils/Statistics';
 
 const AthleteScreen = () => {
 
@@ -18,7 +19,7 @@ const AthleteScreen = () => {
   useEffect(() => {
     const athlete_id = parseInt(id as string); 
     const athlete = athletes.find(athlete => athlete.athlete_id === athlete_id);
-    if(athlete){
+    if(athlete !== undefined){
       setAthlete(athlete)
       const atTests = tests.filter(test => test.athlete_id === athlete.athlete_id)
       setAthleteTests(atTests)
@@ -42,8 +43,14 @@ const AthleteScreen = () => {
         <Text style={[texts.title, styles.textCenter, { color: Colors.primary }]}>{athlete?.firstname} {athlete?.lastname}</Text>
         <Text style={[texts.subLabel, styles.textCenter, { color: Colors.primary }]}>Data di Nascita: {athlete?.birthdate.toString()}</Text>
       </View>
+
+      {/* <View style={[{gap: 15, flex: 1}]}>
+        <Text style={[texts.label, { color: Colors.primary }]}>Statistiche</Text>
+        <Statistics tests={athleteTests} /> 
+      </View>    */}
       
       <View style={[{gap: 15, flex: 1}]}>
+        <Text style={[texts.label, { color: Colors.primary }]}>Test</Text>
         <TestsList data={athleteTests} />
       </View>   
       <FixedButton onClick={handleNewTestPress} /> 
@@ -56,7 +63,7 @@ const styles = StyleSheet.create({
     flex: 1, 
     paddingHorizontal: 20, 
     gap: 20,
-    paddingTop: 30
+    paddingTop: 30,
   }, 
   textCenter: {
     textAlign: 'center'

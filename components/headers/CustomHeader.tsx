@@ -68,7 +68,8 @@ const styles = StyleSheet.create({
         borderColor: Colors.primary,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        backgroundColor: Colors.background
       },
       button: {
       }

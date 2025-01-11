@@ -28,6 +28,7 @@ const GroupCard = ({ data }: ItemProps) => {
     >
       <View style={[styles.row]}>
         <Text style={[{ color: Colors.primary }, texts.label]}>Gruppo {data.group_name}</Text>
+        <Ionicons name='arrow-forward' size={24} color={Colors.primary} />
       </View>
     </TouchableOpacity>
   )

@@ -96,7 +96,14 @@ const MainLayout = () => {
           animation: 'slide_from_right',
           animationDuration: 900
           }} 
-        />
+        />      
+        <Stack.Screen name='statistics/statistics' options={{
+          header: () => <ModalHeader />, 
+          presentation: 'fullScreenModal', 
+          animation: 'slide_from_right', 
+          animationDuration: 900
+          }}
+        /> 
     </Stack>
   )
 }

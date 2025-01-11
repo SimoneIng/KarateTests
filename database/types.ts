@@ -1,3 +1,4 @@
+
 interface Athlete {
     athlete_id: number, 
     firstname: string, 
@@ -13,6 +14,27 @@ interface AthleteGroup {
 
 interface TestType {
   enum_value: string, 
+}
+
+interface Exercize {
+  name: string, 
+  value: number
+}
+
+interface DoubleValueExercize {
+  name: string, 
+  dxValue: number, 
+  sxValue: number, 
+}
+
+interface ExercizeGroup {
+  title: string, 
+  exercizes: Exercize[] | DoubleValueExercize[], 
+}
+
+interface TestValues {
+  test_type: string, 
+  exercizes: ExercizeGroup[], 
 }
 
 interface StandardTestValues {
