@@ -24,7 +24,6 @@ const GroupScreen = () => {
       const atl = athletes.filter(athlete => athlete.group_id === group.group_id); 
       setGroupAthletes(atl); 
     }
-    console.log(role)
   }, [athletes]); 
 
   const handleNewAthletePress = () => {
@@ -35,7 +34,7 @@ const GroupScreen = () => {
     <View style={[styles.page, { backgroundColor: Colors.background }]}>
       <Text style={[texts.pageTitle, { color: Colors.primary }]}>Gruppo {group?.group_name}</Text>
       <AthletesList data={groupAthletes} /> 
-      {role === 'admin' || role === 'coach' && 
+      {role === 'coach' || role === 'admin' && 
         (
           <FixedButton onClick={handleNewAthletePress} />
         )

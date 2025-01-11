@@ -23,7 +23,7 @@ const MainLayout = () => {
   const { getRole } = useAuthStore();
 
   useEffect(() => {
-    getRole() 
+    getRole()
     fetchTestTypes()
     fetchAthletes()
     fetchGroups()

@@ -66,6 +66,8 @@ const useAuthStore = create<AuthState>((set, get) => ({
         throw new Error(error.message);
       }
 
+      console.log('login', data.user.id)
+
       if (data?.user.email) {
         // Estrai solo le proprietà necessarie (id, email, ecc.)
         const user: User = {
@@ -90,19 +92,18 @@ const useAuthStore = create<AuthState>((set, get) => ({
       if (error) {
         throw new Error(error.message);
       }
-      set({ user: null });
+      set({ user: null, role: null });
     } catch (error) {
       console.error(error);
     }
   },
 
   fetchUser: async () => {
-
+    
     set({ loading: true })
 
     try {
       const { data, error } = await supabase.auth.getSession();
-
 
       if (error) {
         throw new Error(error.message);
@@ -129,18 +130,25 @@ const useAuthStore = create<AuthState>((set, get) => ({
 
   getRole: async () => {
     set({  loading: true }); 
-    
 
     try {
-      const { data, error } = await supabase
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', get().user?.uid)
-      .single();
+      const user = get().user; 
 
-      if(error) throw error; 
+      if(!user){
+        set({ role: 'athlete' }); 
+      } else {
+        const { data, error } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.uid)
+        .single();
 
-      set({ role: data?.role as string }); 
+        console.log(data)
+
+        if(error) throw error; 
+        set({ role: data.role })
+      }
+ 
     } catch(error){
       console.log(error)
     } finally {
@@ -351,7 +359,7 @@ const useDBStore = create<DatabaseState>((set, get) => ({
 
     const channels: RealtimeChannel[] = []; 
 
-    const groupChannels = supabase.channel('custom-all-channel')
+    const groupChannels = supabase.channel('group-channel')
     .on('postgres_changes', 
     { event: '*', schema: 'public', table: 'athlete_group' },
     (payload) => {
@@ -381,7 +389,7 @@ const useDBStore = create<DatabaseState>((set, get) => ({
     }
     ).subscribe();
 
-    const athleteChannels = supabase.channel('custom-all-channel')
+    const athleteChannels = supabase.channel('athlete-channel')
     .on('postgres_changes', 
     { event: '*', schema: 'public', table: 'athlete' },
     (payload) => {
@@ -411,7 +419,7 @@ const useDBStore = create<DatabaseState>((set, get) => ({
     }
     ).subscribe(); 
 
-    const testChannels = supabase.channel('custom-all-channel')
+    const testChannels = supabase.channel('test-channel')
     .on('postgres_changes', 
     { event: '*', schema: 'public', table: 'test' },
     (payload) => {
@@ -446,6 +454,7 @@ const useDBStore = create<DatabaseState>((set, get) => ({
 
     set({ subscriptions: channels }); 
   },
+
 }));
 
 

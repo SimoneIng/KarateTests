@@ -19,7 +19,7 @@ const LoginForm = () => {
             await login(email, password)
             router.replace('/'); 
         } catch(error) {
-            console.log(error)
+            Alert.alert('Errore', error as string); 
             setError("Errore...Riprovare.");
         }
     }

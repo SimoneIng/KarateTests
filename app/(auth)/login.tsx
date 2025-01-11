@@ -2,7 +2,6 @@ import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import { texts } from '@/styles/texts'
 import LoginForm from '@/components/forms/LoginForm'
-import { router } from 'expo-router'
 import { Colors } from '@/constants/Colors'
 
 const LoginScreen = () => {

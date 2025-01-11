@@ -9,7 +9,7 @@ const settings = () => {
 
     const handleLogout = async () => {
         await logout(); 
-        router.replace('/'); 
+        router.replace('/')
     }
 
     return (

@@ -60,10 +60,10 @@ const App = () => {
     const { user, loading, fetchUser } = useAuthStore()
 
     useEffect(() => {
-        if (!user && !loading) {
-          fetchUser();
-        }
-      }, [user]); // Cambia solo quando `user` o `loading` cambiano
+      if(!loading && !user){
+        fetchUser()    
+      }
+    }, [user]); // Cambia solo quando `user` o `loading` cambiano
 
 
     if(loading){
