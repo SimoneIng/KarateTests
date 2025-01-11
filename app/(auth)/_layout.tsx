@@ -9,7 +9,8 @@ const AuthLayout = () => {
         animationDuration: 800, 
         contentStyle: {
           backgroundColor: Colors.background, 
-        }
+        },
+        headerShown: false, 
     }} >
         <Stack.Screen name='login' /> 
     </Stack>

@@ -2,7 +2,7 @@ import CustomHeader from "@/components/headers/CustomHeader";
 import GroupsHeader from "@/components/headers/GroupsHeader";
 import { Stack } from "expo-router";
 import { useEffect } from "react";
-import { useDBStore } from "@/database/state";
+import { useAuthStore, useDBStore } from "@/database/state";
 import { ActivityIndicator, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Colors } from "@/constants/Colors";
@@ -20,7 +20,10 @@ const MainLayout = () => {
     initRealtimeSubscriptions 
   } = useDBStore(); 
 
+  const { getRole } = useAuthStore();
+
   useEffect(() => {
+    getRole() 
     fetchTestTypes()
     fetchAthletes()
     fetchGroups()
@@ -98,6 +101,13 @@ const MainLayout = () => {
           }} 
         />      
         <Stack.Screen name='statistics/statistics' options={{
+          header: () => <ModalHeader />, 
+          presentation: 'fullScreenModal', 
+          animation: 'slide_from_right', 
+          animationDuration: 900
+          }}
+        /> 
+        <Stack.Screen name='settings/settings' options={{
           header: () => <ModalHeader />, 
           presentation: 'fullScreenModal', 
           animation: 'slide_from_right', 

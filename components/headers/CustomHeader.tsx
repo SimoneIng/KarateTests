@@ -1,18 +1,19 @@
 import { View, StyleSheet, TouchableOpacity, Text, Platform } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Colors } from '@/constants/Colors';
-import { texts } from '@/styles/texts';
 import { useRoute } from '@react-navigation/native';
-import { useDBStore } from '@/database/state';
+import { useAuthStore, useDBStore } from '@/database/state';
 
 const CustomHeader = () => {
 
     const { top } = useSafeAreaInsets(); 
     const route = useRoute(); 
     const { removeAthlete, removeAthleteGroup, removeTest } = useDBStore(); 
+
+    const { role } = useAuthStore(); 
 
     const handleDelete = async () => {
         const { params, name } = route; 
@@ -51,12 +52,15 @@ const CustomHeader = () => {
                 <Ionicons name='arrow-back-circle' size={36} color={Colors.primary} /> 
             </TouchableOpacity>
 
-            <TouchableOpacity
-                style={styles.button}
-                onLongPress={handleDelete}
-            >   
-                <Ionicons name='trash-bin-outline' size={21} color={Colors.primary} />
-            </TouchableOpacity>
+            {role === 'coach' || role === 'admin' && (
+                <TouchableOpacity
+                    style={styles.button}
+                    onLongPress={handleDelete}
+                >   
+                    <Ionicons name='trash-bin-outline' size={21} color={Colors.primary} />
+                </TouchableOpacity>
+            )
+            }
         </View>
     )
 }

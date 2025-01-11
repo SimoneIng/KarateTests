@@ -6,12 +6,15 @@ import { RealtimeChannel } from '@supabase/supabase-js';
 // Definisci i tipi per l'utente e lo stato di autenticazione
 interface User {
   email: string;
+  uid: string 
 }
 
 interface AuthState {
   user: User | null;
   loading: boolean;
+  role: string | null; 
   login: (email: string, password: string) => Promise<void>;
+  getRole: () => Promise<void>; 
   logout: () => Promise<void>;
   fetchUser: () => Promise<void>;
 }
@@ -48,7 +51,8 @@ interface DatabaseState {
 const useAuthStore = create<AuthState>((set, get) => ({
   user: null, // Stato dell'utente, inizialmente null
   loading: false, // Stato di caricamento per operazioni come login/logout
-  
+  role: null, 
+
   login: async (email, password) => {
     set({ loading: true });
 
@@ -66,6 +70,7 @@ const useAuthStore = create<AuthState>((set, get) => ({
         // Estrai solo le proprietà necessarie (id, email, ecc.)
         const user: User = {
           email: data.user.email,
+          uid: data.user.id, 
         };
   
         // Imposta lo stato dell'utente nello store
@@ -103,10 +108,11 @@ const useAuthStore = create<AuthState>((set, get) => ({
         throw new Error(error.message);
       }
 
-      if(data.session?.user.email){
+      if(data.session?.user.email && data.session.user.id){
 
         const user: User = {
-          email: data.session.user.email
+          email: data.session.user.email,
+          uid: data.session.user.id
         }
 
         set({ user: user });
@@ -120,6 +126,27 @@ const useAuthStore = create<AuthState>((set, get) => ({
       set({ loading: false })
     }
   },
+
+  getRole: async () => {
+    set({  loading: true }); 
+    
+
+    try {
+      const { data, error } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', get().user?.uid)
+      .single();
+
+      if(error) throw error; 
+
+      set({ role: data?.role as string }); 
+    } catch(error){
+      console.log(error)
+    } finally {
+      set({ loading: false }); 
+    }
+  }
 
 }));
 

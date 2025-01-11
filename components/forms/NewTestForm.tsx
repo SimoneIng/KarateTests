@@ -49,20 +49,20 @@ const TestForm = ({ athlete_id }: Props) => {
     <View style={styles.container}>
       
       <View style={styles.section}>
-      <Text style={[texts.subTitle, styles.sectionTitle]}>Generali</Text>
+      <Text style={[texts.label, styles.sectionTitle]}>Generali</Text>
         {renderInput('Altezza', 'Altezza', control)}
         {renderInput('Peso', 'Peso', control)}
       </View>
 
       <View style={styles.section}>
-        <Text style={[texts.subTitle, styles.sectionTitle]}>Flessibilità</Text>
+        <Text style={[texts.label, styles.sectionTitle]}>Flessibilità</Text>
         {renderInput('Flessibilità.In piedi', 'In piedi', control)}
         {renderInput('Flessibilità.Seduto', 'Seduto', control)}
       </View>
 
       {/* Rapidità */}
       <View style={styles.section}>
-        <Text style={[texts.subTitle, styles.sectionTitle]}>Rapidità</Text>
+        <Text style={[texts.label, styles.sectionTitle]}>Rapidità</Text>
         {renderInput('Rapidità.N. mov skip 30sec', 'N. mov skip 30sec', control)}
         {renderInput('Rapidità.Sec. 30 mov skip', 'Sec. 30 mov skip', control)}
         
@@ -85,7 +85,7 @@ const TestForm = ({ athlete_id }: Props) => {
 
       {/* Esplosività */}
       <View style={styles.section}>
-        <Text style={[texts.subTitle, styles.sectionTitle]}>Esplosività</Text>
+        <Text style={[texts.label, styles.sectionTitle]}>Esplosività</Text>
         
         <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>Stiffness - Prova 1</Text>
         {renderInput('Esplosività.Stiffness.Prova 1.Minimo', 'Minimo', control)}
@@ -108,7 +108,7 @@ const TestForm = ({ athlete_id }: Props) => {
 
       {/* Navetta */}
       <View style={styles.section}>
-        <Text style={[texts.subTitle, styles.sectionTitle]}>Navetta</Text>
+        <Text style={[texts.label, styles.sectionTitle]}>Navetta</Text>
         {renderInput('Navetta 8mt x 10', 'Navetta 8mt x 10', control)}
       </View>
 
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   sectionTitle: {
-    color: Colors.primary, 
+    color: Colors.accent, 
     marginBottom: 10,
   },
   subSectionTitle: {
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   label: {
-    color: Colors.primary, 
+    color: Colors.secondary, 
     marginBottom: 4,
   },
   input: {

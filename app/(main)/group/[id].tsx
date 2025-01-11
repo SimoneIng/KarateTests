@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { texts } from '@/styles/texts'
 import { router, useLocalSearchParams } from 'expo-router';
-import { useDBStore } from '@/database/state';
+import { useAuthStore, useDBStore } from '@/database/state';
 import { Athlete, AthleteGroup } from '@/database/types';
 import AthletesList from '@/components/lists/AthletesList';
 import FixedButton from '@/components/utils/FixedButton';
@@ -12,6 +12,7 @@ const GroupScreen = () => {
 
   const { id } = useLocalSearchParams(); 
   const { groups, athletes } = useDBStore(); 
+  const { role } = useAuthStore(); 
   const [group, setGroup] = useState<AthleteGroup | null>(null); 
   const [groupAthletes, setGroupAthletes] = useState<Athlete[]>([]); 
 
@@ -23,6 +24,7 @@ const GroupScreen = () => {
       const atl = athletes.filter(athlete => athlete.group_id === group.group_id); 
       setGroupAthletes(atl); 
     }
+    console.log(role)
   }, [athletes]); 
 
   const handleNewAthletePress = () => {
@@ -33,7 +35,11 @@ const GroupScreen = () => {
     <View style={[styles.page, { backgroundColor: Colors.background }]}>
       <Text style={[texts.pageTitle, { color: Colors.primary }]}>Gruppo {group?.group_name}</Text>
       <AthletesList data={groupAthletes} /> 
-      <FixedButton onClick={handleNewAthletePress} /> 
+      {role === 'admin' || role === 'coach' && 
+        (
+          <FixedButton onClick={handleNewAthletePress} />
+        )
+      } 
     </View>
   )
 }
