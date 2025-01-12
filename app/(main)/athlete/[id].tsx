@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { texts } from '@/styles/texts'
 import { router, useLocalSearchParams } from 'expo-router';
@@ -26,6 +26,10 @@ const AthleteScreen = () => {
     }
   }, [tests]); 
 
+  const getLatestTests = (): Test[] => {
+    return athleteTests.sort((a, b) => new Date(a.test_date).getMilliseconds() - new Date(b.test_date).getMilliseconds()).slice(0, 2)
+  }
+
   const handleNewTestPress = () => {
     router.push({
       pathname: '/modals/newTest', 
@@ -37,32 +41,33 @@ const AthleteScreen = () => {
   }
 
   return (
-    <View style={[styles.page, {  backgroundColor: Colors.background }]}>
+    <>
+    <ScrollView showsVerticalScrollIndicator={false} style={[styles.page, {  backgroundColor: Colors.background }]}>
       
-      <View style={[{gap: 15}]}>
+      <View style={[{gap: 15, marginVertical: 5}]}>
         <Text style={[texts.title, styles.textCenter, { color: Colors.primary }]}>{athlete?.firstname} {athlete?.lastname}</Text>
         <Text style={[texts.subLabel, styles.textCenter, { color: Colors.primary }]}>Data di Nascita: {athlete?.birthdate.toString()}</Text>
       </View>
 
-      {/* <View style={[{gap: 15, flex: 1}]}>
+      <View style={[{gap: 0, flex: 1, marginTop: 40}]}>
         <Text style={[texts.label, { color: Colors.primary }]}>Statistiche</Text>
-        <Statistics tests={athleteTests} /> 
-      </View>    */}
+        <Statistics tests={getLatestTests()} /> 
+      </View>   
       
-      <View style={[{gap: 15, flex: 1}]}>
+      <View style={[{gap: 10, flex: 1, marginHorizontal: 10 }]}>
         <Text style={[texts.label, { color: Colors.primary }]}>Test</Text>
         <TestsList data={athleteTests} />
       </View>   
-      <FixedButton onClick={handleNewTestPress} /> 
-    </View>
+      
+    </ScrollView>
+    <FixedButton onClick={handleNewTestPress} />
+  </>
   )
 }
 
 const styles = StyleSheet.create({
   page: {
-    flex: 1, 
-    paddingHorizontal: 20, 
-    gap: 20,
+    paddingHorizontal: 10,
     paddingTop: 30,
   }, 
   textCenter: {

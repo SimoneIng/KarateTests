@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
         alignItems: 'center', 
         justifyContent: 'space-between',
         backgroundColor: Colors.accent,
-        borderWidth: 1, 
     }
 }); 
 

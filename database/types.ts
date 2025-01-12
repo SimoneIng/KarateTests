@@ -16,26 +16,26 @@ interface TestType {
   enum_value: string, 
 }
 
-interface Exercize {
-  name: string, 
-  value: number
-}
+// interface Exercize {
+//   name: string, 
+//   value: number
+// }
 
-interface DoubleValueExercize {
-  name: string, 
-  dxValue: number, 
-  sxValue: number, 
-}
+// interface DoubleValueExercize {
+//   name: string, 
+//   dxValue: number, 
+//   sxValue: number, 
+// }
 
-interface ExercizeGroup {
-  title: string, 
-  exercizes: Exercize[] | DoubleValueExercize[], 
-}
+// interface ExercizeGroup {
+//   title: string, 
+//   exercizes: Exercize[] | DoubleValueExercize[], 
+// }
 
-interface TestValues {
-  test_type: string, 
-  exercizes: ExercizeGroup[], 
-}
+// interface TestValues {
+//   test_type: string, 
+//   exercizes: ExercizeGroup[], 
+// }
 
 interface StandardTestValues {
     "Altezza": number;
@@ -45,21 +45,21 @@ interface StandardTestValues {
       'Seduto': number;
     };
     "Rapidità": {
-      'N. mov skip 30sec': number, 
-      'Sec. 30 mov skip': number, 
-      'N. mov giaku 30sec': {
+      'N mov skip 30sec': number, 
+      'Sec 30 mov skip': number, 
+      'N mov giaku 30sec': {
         "DX": number | null;
         "SX": number | null;
       };
-      'Sec. 30 mov giaku': {
+      'Sec 30 mov giaku': {
         "DX": number | null;
         "SX": number | null;
       };
-      'N. mov mawashi 30sec': {
+      'N mov mawashi 30sec': {
         "DX": number | null;
         "SX": number | null;
       };
-      'Sec. 30 mov mawashi': {
+      'Sec 30 mov mawashi': {
         "DX": number | null;
         "SX": number | null;
       };
@@ -69,12 +69,12 @@ interface StandardTestValues {
         'Prova 1': {
           "Minimo": number;
           "Massimo": number;
-          'Temp. contatto': number;
+          'Tempo contatto': number;
         };
         'Prova 2': {
           "Minimo": number;
           "Massimo": number;
-          'Temp. contatto': number;
+          'Tempo contatto': number;
         };
       };
       'Squat Jump': {
@@ -92,11 +92,11 @@ interface StandardTestValues {
 }
 
 interface Test {
-    test_id: number, 
-    test_date: Date, 
-    type: string, 
-    test_values: StandardTestValues,
-    athlete_id: number 
+  test_id: number, 
+  test_date: string, 
+  type: string, 
+  test_values: StandardTestValues,
+  athlete_id: number 
 }
 
 interface AthleteGroupWithAthletes {

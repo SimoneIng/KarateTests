@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
-import { Athlete, Test } from '@/database/types'
 import { texts } from '@/styles/texts'
 import { Colors } from '@/constants/Colors'
 
@@ -23,4 +22,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default statistics; 
+export default statistics;

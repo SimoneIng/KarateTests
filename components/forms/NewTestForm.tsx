@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, ScrollView, StyleSheet, TextInput, Text, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View, ScrollView, StyleSheet, TextInput, Text, Alert, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { Colors } from '@/constants/Colors';
 import CustomButton from '../utils/CustomButton';
@@ -8,6 +8,7 @@ import { StandardTestValues } from '@/database/types';
 import { useDBStore } from '@/database/state';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import DateTimePickerModal, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 
 interface Props {
   athlete_id: number, 
@@ -16,10 +17,28 @@ interface Props {
 const TestForm = ({ athlete_id }: Props) => {
   
   const { control, handleSubmit, formState: { errors } } = useForm<StandardTestValues>();
+  const [date, setDate] = useState<Date>(new Date());
+  const [datePickerVisible, setDatePickerVisibility] = useState(false);
   const { addTest } = useDBStore(); 
 
+  const onDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+      const currentDate = selectedDate || date;
+      
+      // Su Android, il picker si chiude automaticamente dopo la selezione
+      if (Platform.OS === 'android') {
+        setDatePickerVisibility(false);
+      }
+      
+      setDate(currentDate);
+  };
+  
+  const toggleDatePicker = (): void => {
+      setDatePickerVisibility(prev => !prev);
+  };
+  
+
   const onSubmit = async (data: StandardTestValues) => {
-    await addTest(athlete_id, "Test Standard", data, new Date()); 
+    await addTest(athlete_id, "Test Standard", data, date); 
     router.back(); 
   };
 
@@ -47,6 +66,31 @@ const TestForm = ({ athlete_id }: Props) => {
 
   return (
     <View style={styles.container}>
+
+      <View style={[styles.section]}>
+        <Text style={[texts.label, styles.sectionTitle]}>Data</Text>
+        <TouchableOpacity 
+            onPress={toggleDatePicker}
+            style={[{ flexDirection: 'row', gap: 20, alignItems: 'center' }]}
+        >
+            {date && (
+                <Text style={[texts.subLabel, styles.label, { marginLeft: 10 }]}>{date.toLocaleDateString()}</Text>
+            )}  
+            <Ionicons name='calendar' size={24} color={Colors.primary} />  
+        </TouchableOpacity> 
+        
+        {datePickerVisible && (
+            <DateTimePickerModal
+            testID="dateTimePicker"
+            textColor='#fff'
+            value={date}
+            mode="date"
+            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            onChange={onDateChange}
+            style={styles.datePicker}
+            />
+          )}
+      </View>
       
       <View style={styles.section}>
       <Text style={[texts.label, styles.sectionTitle]}>Generali</Text>
@@ -63,24 +107,24 @@ const TestForm = ({ athlete_id }: Props) => {
       {/* Rapidità */}
       <View style={styles.section}>
         <Text style={[texts.label, styles.sectionTitle]}>Rapidità</Text>
-        {renderInput('Rapidità.N. mov skip 30sec', 'N. mov skip 30sec', control)}
-        {renderInput('Rapidità.Sec. 30 mov skip', 'Sec. 30 mov skip', control)}
+        {renderInput('Rapidità.N mov skip 30sec', 'N. mov skip 30sec', control)}
+        {renderInput('Rapidità.Sec 30 mov skip', 'Sec. 30 mov skip', control)}
         
         <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>N. mov giaku 30sec</Text>
-        {renderInput('Rapidità.N. mov giaku 30sec.DX', 'DX', control)}
-        {renderInput('Rapidità.N. mov giaku 30sec.SX', 'SX', control)}
+        {renderInput('Rapidità.N mov giaku 30sec.DX', 'DX', control)}
+        {renderInput('Rapidità.N mov giaku 30sec.SX', 'SX', control)}
         
         <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>Sec. 30 mov giaku</Text>
-        {renderInput('Rapidità.Sec. 30 mov giaku.DX', 'DX', control)}
-        {renderInput('Rapidità.Sec. 30 mov giaku.SX', 'SX', control)}
+        {renderInput('Rapidità.Sec 30 mov giaku.DX', 'DX', control)}
+        {renderInput('Rapidità.Sec 30 mov giaku.SX', 'SX', control)}
         
         <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>N. mov mawashi 30sec</Text>
-        {renderInput('Rapidità.N. mov mawashi 30sec.DX', 'DX', control)}
-        {renderInput('Rapidità.N. mov mawashi 30sec.SX', 'SX', control)}
+        {renderInput('Rapidità.N mov mawashi 30sec.DX', 'DX', control)}
+        {renderInput('Rapidità.N mov mawashi 30sec.SX', 'SX', control)}
         
         <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>Sec. 30 mov mawashi</Text>
-        {renderInput('Rapidità.Sec. 30 mov mawashi.DX', 'DX', control)}
-        {renderInput('Rapidità.Sec. 30 mov mawashi.SX', 'SX', control)}
+        {renderInput('Rapidità.Sec 30 mov mawashi.DX', 'DX', control)}
+        {renderInput('Rapidità.Sec 30 mov mawashi.SX', 'SX', control)}
       </View>
 
       {/* Esplosività */}
@@ -90,12 +134,12 @@ const TestForm = ({ athlete_id }: Props) => {
         <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>Stiffness - Prova 1</Text>
         {renderInput('Esplosività.Stiffness.Prova 1.Minimo', 'Minimo', control)}
         {renderInput('Esplosività.Stiffness.Prova 1.Massimo', 'Massimo', control)}
-        {renderInput('Esplosività.Stiffness.Prova 1.Temp. contatto', 'Temp. contatto', control)}
+        {renderInput('Esplosività.Stiffness.Prova 1.Tempo contatto', 'Tempo contatto', control)}
         
         <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>Stiffness - Prova 2</Text>
         {renderInput('Esplosività.Stiffness.Prova 2.Minimo', 'Minimo', control)}
         {renderInput('Esplosività.Stiffness.Prova 2.Massimo', 'Massimo', control)}
-        {renderInput('Esplosività.Stiffness.Prova 2.Temp. contatto', 'Temp. contatto', control)}
+        {renderInput('Esplosività.Stiffness.Prova 2.Tempo contatto', 'Tempo contatto', control)}
         
         <Text style={[texts.label, styles.subSectionTitle, {marginLeft: 5 }]}>Squat Jump - Prova 1</Text>
         {renderInput('Esplosività.Squat Jump.Prova 1.cmj', 'CMJ', control)}
@@ -151,6 +195,9 @@ const styles = StyleSheet.create({
     color: Colors.primary,
     minWidth: 70,
     textAlign: 'right'
+  },
+  datePicker: {
+      width: Platform.OS === 'ios' ? '100%' : undefined,
   },
 });
 

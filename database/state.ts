@@ -66,8 +66,6 @@ const useAuthStore = create<AuthState>((set, get) => ({
         throw new Error(error.message);
       }
 
-      console.log('login', data.user.id)
-
       if (data?.user.email) {
         // Estrai solo le proprietà necessarie (id, email, ecc.)
         const user: User = {
@@ -142,8 +140,6 @@ const useAuthStore = create<AuthState>((set, get) => ({
         .select('role')
         .eq('user_id', user.uid)
         .single();
-
-        console.log(data)
 
         if(error) throw error; 
         set({ role: data.role })
