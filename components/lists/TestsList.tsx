@@ -1,45 +1,60 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { Athlete, Test } from '@/database/types'
+import { Test } from '@/database/types'
 import { texts } from '@/styles/texts';
-import { router } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import { FlashList } from '@shopify/flash-list';
+import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 interface ListProps {
   data: Test[], 
+  onItemLongPress: (id: number) => void;
+  onItemPress: (id: number) => void; 
 }
 
 interface ItemProps {
   data: Test; 
+  handleLongPress: () => void; 
+  handlePress: () => void; 
 }
 
-const TestCard = ({ data }: ItemProps) => {
+const TestCard = ({ data, handlePress, handleLongPress }: ItemProps) => {
 
-  const handleTestPress = () => {
-    router.push(`/test/${data.test_id}`); 
+  const renderDate = () => {
+    const date = new Date(data.test_date); 
+    return date.toLocaleDateString('it-IT', { 
+      day: '2-digit', 
+      month: 'long', 
+      year: 'numeric' 
+  });
   }
   
   return (
     <TouchableOpacity
       style={[styles.testCard]}
-      onPress={handleTestPress}
+      onPress={handlePress}
+      onLongPress={handleLongPress}
     >
-      <View style={[styles.row]}>
-        <Text style={[{ color: Colors.primary }, texts.label]}>{data.type}</Text>
-        <Text style={[{ color: Colors.primary }, texts.subLabel]}> {data.test_date.toString()} </Text>
-      </View>
+      <Text style={[{ color: Colors.primary }, texts.subLabel]}> {renderDate()} </Text>
+      <Text style={[{ color: Colors.primary }, texts.subLabel]}>{data.type}</Text>
     </TouchableOpacity>
   )
 }
 
-const TestsList = ({ data }: ListProps) => {
+const TestsList = ({ data, onItemPress, onItemLongPress }: ListProps) => {
   return (
     <FlashList 
       estimatedItemSize={65}
       data={data}
       keyExtractor={item => item.test_id.toString()}
-      renderItem={({item}) => <TestCard data={item} />}
+      renderItem={({item}) => 
+        <TestCard 
+          data={item} 
+          handlePress={() => onItemPress(item.test_id)}
+          handleLongPress={() => onItemLongPress(item.test_id)}
+        />
+      }
     /> 
   )
 }
@@ -47,15 +62,17 @@ const TestsList = ({ data }: ListProps) => {
 const styles = StyleSheet.create({
   testCard: {
     borderRadius: 6, 
-    padding: 10, 
+    padding: 20, 
     marginVertical: 5,
     backgroundColor: Colors.cardBackground, 
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
   }, 
   list: {
   }, 
   row: {
-    padding: 10, 
-    flexDirection: 'row', 
+    flexDirection: 'column', 
     justifyContent: 'space-between',
     alignItems: 'center'
   },

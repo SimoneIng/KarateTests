@@ -40,6 +40,14 @@ const AthleteScreen = () => {
     }); 
   }
 
+  const handleTestPress = (id: number) => {
+    router.push(`/test/${id}`)
+  }
+
+  const handleTestLongPress = (id: number) => {
+    alert('long press')
+  }
+
   return (
     <>
     <ScrollView showsVerticalScrollIndicator={false} style={[styles.page, {  backgroundColor: Colors.background }]}>
@@ -56,7 +64,7 @@ const AthleteScreen = () => {
       
       <View style={[{gap: 10, flex: 1, marginHorizontal: 10 }]}>
         <Text style={[texts.label, { color: Colors.primary }]}>Test</Text>
-        <TestsList data={athleteTests} />
+        <TestsList data={athleteTests} onItemPress={handleTestPress} onItemLongPress={handleTestLongPress} />
       </View>   
       
     </ScrollView>

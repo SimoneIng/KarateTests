@@ -45,8 +45,7 @@ const AppRoot = () => {
         return (
           // Mostra un loader o splash screen mentre verifica gli aggiornamenti
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <ActivityIndicator size="large" />
-            <Text style={[texts.label, { color: Colors.primary }]}>Verifica aggiornamenti...</Text>
+            <ActivityIndicator size="large" color={Colors.primary} />
           </View>
         );
       }

@@ -2,7 +2,7 @@
 
 export const texts = {
     pageTitle: {
-        fontSize: 36, 
+        fontSize: 34, 
         fontFamily: 'RobotoBold'
     },
     title: {

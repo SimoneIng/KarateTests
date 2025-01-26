@@ -37,6 +37,8 @@ interface DatabaseState {
   fetchGroups: () => Promise<void>, 
   fetchAthletes: () => Promise<void>, 
   fetchTests: () => Promise<void>,
+  getTestById: (id: number) => Test | undefined; 
+  getTestsByAthleteId: (id: number) => Test[]; 
 
   addTest: (athlete_id: number, type: string, testValues: any, date: Date) => Promise<void>, 
   addAthlete: (firstname: string, lastname: string, birthdate: Date, groupId: number) => Promise<void>, 
@@ -349,6 +351,15 @@ const useDBStore = create<DatabaseState>((set, get) => ({
       console.log('Error', error); 
     }
   },
+
+  getTestById: (id: number) => {
+    return get().tests.find(test => test.test_id === id)
+  },
+
+  getTestsByAthleteId: (id: number) => {
+    return get().tests.filter(test => test.athlete_id === id); 
+  }, 
+
 
   // Inizializza le subscription per gli aggiornamenti realtime
   initRealtimeSubscriptions: () => {

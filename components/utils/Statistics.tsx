@@ -3,8 +3,6 @@ import React, { useEffect } from 'react'
 import { Test } from '@/database/types'
 import { Colors } from '@/constants/Colors';
 import { router } from 'expo-router';
-import { BarChart } from 'react-native-gifted-charts'
-import CustomBarChart from './CustomBarChart';
 import { texts } from '@/styles/texts';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -12,15 +10,10 @@ interface Props {
   tests: Test[]; 
 }
 
-
-
 const Statistics = ({ tests }: Props) => {
 
-  useEffect(() => {
-  }, [])
-
   const handleClick = () => {
-    router.push('/statistics/statistics'); 
+    router.push(`/statistics/${tests[0].athlete_id}`); 
   }
 
   const getSomeTestValues = () => {

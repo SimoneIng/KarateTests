@@ -1,11 +1,13 @@
-import { View, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import CustomButton from '@/components/utils/CustomButton'
 import { useAuthStore } from '@/database/state'
 import { router } from 'expo-router'
+import { texts } from '@/styles/texts'
+import { Colors } from '@/constants/Colors'
 
 const settings = () => {
-    const { logout } = useAuthStore(); 
+    const { logout, role, user } = useAuthStore(); 
 
     const handleLogout = async () => {
         await logout(); 
@@ -14,6 +16,10 @@ const settings = () => {
 
     return (
         <View style={[styles.page]}>
+            <View style={[styles.content]}>
+                <Text style={[texts.label, {color: Colors.primary}]}>Profilo {role}</Text>
+                <Text style={[texts.subLabel, {color: Colors.primary}]}>Accesso: {user?.email}</Text>
+            </View>
             <CustomButton title='Logout' handleClick={handleLogout} />
         </View>
     )
@@ -22,6 +28,10 @@ const settings = () => {
 const styles = StyleSheet.create({
     page: {
         flex: 1,
+    }, 
+    content: {
+        padding: 20, 
+        gap: 10,
     }
 })
 

@@ -18,13 +18,15 @@ interface TestType {
 
 // interface Exercize {
 //   name: string, 
-//   value: number
+//   value: number,
+//   metric: boolean Ad esempio, 1 se un valore minore è positivo, 0 se è negativo.
 // }
 
 // interface DoubleValueExercize {
 //   name: string, 
 //   dxValue: number, 
 //   sxValue: number, 
+//   metric: boolean
 // }
 
 // interface ExercizeGroup {

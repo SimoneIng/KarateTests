@@ -42,10 +42,13 @@ const CustomHeader = () => {
     }
 
     return (
-        <View style={[styles.header, { 
-            paddingTop: Platform.OS === 'ios' ? top : top+10, 
-            backgroundColor: Colors.background
-        }]}>
+        <View 
+            style={[styles.header, { 
+                paddingTop: Platform.OS === 'ios' ? top : top+10, 
+                padding: 20, 
+                backgroundColor: Colors.background
+            }]}
+        >
             <TouchableOpacity 
                 onPress={() => router.back()}
             >
@@ -66,8 +69,7 @@ const CustomHeader = () => {
 }
 
 const styles = StyleSheet.create({
-    header: {
-        padding: 20, 
+    header: { 
         borderBottomWidth: 0.5, 
         borderColor: Colors.primary,
         flexDirection: 'row',
