@@ -156,7 +156,7 @@ const TestForm = ({ athlete_id }: Props) => {
         {renderInput('Navetta 8mt x 10', 'Navetta 8mt x 10', control)}
       </View>
 
-      <CustomButton title="Aggiungi" handleClick={handleSubmit(onSubmit, () => Alert.alert("Errore", "Campi Mancanti"))} /> 
+      <CustomButton title="Aggiungi" size='large' handleClick={handleSubmit(onSubmit, () => Alert.alert("Errore", "Campi Mancanti"))} /> 
     </View>
   );
 };

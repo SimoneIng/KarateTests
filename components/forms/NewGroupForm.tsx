@@ -3,10 +3,10 @@ import React from 'react'
 import CustomButton from '../utils/CustomButton';
 import { texts } from '@/styles/texts';
 import { Colors } from '@/constants/Colors';
-import { useForm, useController, Controller } from 'react-hook-form';
-import { AthleteGroup } from '@/database/types';
+import { useForm, Controller } from 'react-hook-form';
 import { useDBStore } from '@/database/state';
 import { router } from 'expo-router';
+import CustomInput from '../utils/CustomInput';
 
 interface Group {
     groupName: string
@@ -34,22 +34,19 @@ const NewGroupForm = () => {
             <Controller
             control={control}
             rules={{ required: true, minLength: 4 }}
-            render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput 
-                style={[texts.subLabel, styles.input]}
-                placeholder='Titolo'
-                placeholderTextColor='#ccc'
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
+            render={({ field: { onChange, value } }) => (
+                <CustomInput 
+                    value={value}
+                    onChange={onChange}
+                    placeholder='Nome Gruppo'
                 /> 
             )}
             name="groupName"
             />
-            {errors.groupName && <Text style={[texts.tinyLabel, {color: Colors.error }]}>Errore</Text>}
+            {errors.groupName && <Text style={[texts.tinyLabel, {color: Colors.error }]}>Nome mancante o troppo corto</Text>}
         </View>
 
-        <CustomButton title='Aggiungi' handleClick={handleSubmit(onSubmit)} />
+        <CustomButton title='Aggiungi' size='large' icon='add-circle' handleClick={handleSubmit(onSubmit)} />
 
         </KeyboardAvoidingView>
         </View>

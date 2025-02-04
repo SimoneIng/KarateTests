@@ -1,10 +1,9 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { Test } from '@/database/types'
 import { texts } from '@/styles/texts';
 import { Colors } from '@/constants/Colors';
 import { FlashList } from '@shopify/flash-list';
-import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 interface ListProps {
@@ -29,15 +28,25 @@ const TestCard = ({ data, handlePress, handleLongPress }: ItemProps) => {
       year: 'numeric' 
   });
   }
+
+  const handleOptionsPress = () => {
+
+  }
   
   return (
-    <TouchableOpacity
-      style={[styles.testCard]}
-      onPress={handlePress}
-      onLongPress={handleLongPress}
-    >
-      <Text style={[{ color: Colors.primary }, texts.subLabel]}> {renderDate()} </Text>
-      <Text style={[{ color: Colors.primary }, texts.subLabel]}>{data.type}</Text>
+    <TouchableOpacity onPress={handlePress} style={[styles.testCard]}>
+      
+      <TouchableOpacity onPress={handleOptionsPress} style={{position: 'absolute', top: 10, right: 10}}>
+        <Ionicons name='ellipsis-horizontal' size={24}/> 
+      </TouchableOpacity>
+
+      <View>
+        <Text style={[texts.subLabel]}>Data Test: {renderDate()}</Text>
+      </View>
+
+      <View>
+        <Text style={[texts.tinyLabel]}>Esercizi: </Text>
+      </View>
     </TouchableOpacity>
   )
 }
@@ -61,13 +70,21 @@ const TestsList = ({ data, onItemPress, onItemLongPress }: ListProps) => {
 
 const styles = StyleSheet.create({
   testCard: {
+    gap: 10, 
     borderRadius: 6, 
-    padding: 20, 
+    padding: 10, 
     marginVertical: 5,
     backgroundColor: Colors.cardBackground, 
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 5},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    minHeight: 80, 
+  }, 
+  content: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    gap: 10
   }, 
   list: {
   }, 

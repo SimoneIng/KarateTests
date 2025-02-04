@@ -6,6 +6,8 @@ import { router } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import { useRoute } from '@react-navigation/native';
 import { useAuthStore, useDBStore } from '@/database/state';
+import { texts } from '@/styles/texts';
+import CustomButton from '../utils/CustomButton';
 
 const CustomHeader = () => {
 
@@ -46,7 +48,6 @@ const CustomHeader = () => {
             style={[styles.header, { 
                 paddingTop: Platform.OS === 'ios' ? top : top+10, 
                 padding: 20, 
-                backgroundColor: Colors.background
             }]}
         >
             <TouchableOpacity 
@@ -56,12 +57,7 @@ const CustomHeader = () => {
             </TouchableOpacity>
 
             {role === 'coach' || role === 'admin' && (
-                <TouchableOpacity
-                    style={styles.button}
-                    onLongPress={handleDelete}
-                >   
-                    <Ionicons name='trash-bin-outline' size={21} color={Colors.primary} />
-                </TouchableOpacity>
+                <CustomButton title='Elimina' size='small' handleClick={handleDelete} /> 
             )
             }
         </View>
@@ -69,16 +65,12 @@ const CustomHeader = () => {
 }
 
 const styles = StyleSheet.create({
-    header: { 
-        borderBottomWidth: 0.5, 
-        borderColor: Colors.primary,
+    header: {  
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: Colors.background
+        backgroundColor: Colors.cardBackground
       },
-      button: {
-      }
 })
 
 export default CustomHeader; 

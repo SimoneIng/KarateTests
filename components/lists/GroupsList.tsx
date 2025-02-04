@@ -27,9 +27,20 @@ const GroupCard = ({ data }: ItemProps) => {
       onPress={handleGroupPress}
     >
       <View style={[styles.row]}>
-        <Text style={[{ color: Colors.primary }, texts.label]}>Gruppo {data.group_name}</Text>
-        <Ionicons name='arrow-forward' size={24} color={Colors.primary} />
+        <Text style={[{ color: Colors.onCardText }, texts.label]}>Gruppo {data.group_name}</Text>
       </View>
+
+      <View style={styles.row}>
+        <Text style={[{ color: Colors.onCardText }, texts.subLabel]}>Atleti: ?</Text>
+      </View>
+
+      <TouchableOpacity
+          style={styles.actionButton}
+          onPress={() => alert('action')}
+        >
+          <Ionicons name='ellipsis-horizontal' size={24} color={Colors.onCardText} />
+      </TouchableOpacity>
+
     </TouchableOpacity>
   )
 }
@@ -47,11 +58,18 @@ const GroupsList = ({ data }: ListProps) => {
 
 const styles = StyleSheet.create({
   groupCard: {
-    borderRadius: 10,
+    borderRadius: 6,
     padding: 10, 
-    marginVertical: 5,
+    marginVertical: 2,
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 5},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   }, 
-  list: {
+  actionButton: {
+    position: 'absolute', 
+    top: 10,
+    right: 10
   }, 
   row: {
     padding: 10, 

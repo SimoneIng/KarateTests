@@ -14,12 +14,12 @@ const ModalHeader = () => {
         <View style={[styles.header, { 
             paddingTop: Platform.OS === 'ios' ? top : top+10, 
             padding: 20, 
-            backgroundColor: Colors.background 
+            backgroundColor: Colors.cardBackground 
         }]}>
             <TouchableOpacity 
                 onPress={() => router.back()}
             >
-                <Ionicons name='arrow-back-circle' size={36} color={Colors.primary} /> 
+                <Ionicons name='arrow-back-circle' size={36} color={Colors.onCardText} /> 
             </TouchableOpacity>
         </View>
     )
@@ -28,7 +28,6 @@ const ModalHeader = () => {
 const styles = StyleSheet.create({
     header: {
         padding: 20, 
-        borderBottomWidth: 0.5, 
         borderColor: Colors.primary,
       },
 })

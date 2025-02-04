@@ -9,6 +9,7 @@ import SelectableGroupList from '../lists/SelectableGroupList';
 import { Controller, useForm } from 'react-hook-form';
 import DateTimePickerModal, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { router } from 'expo-router';
+import CustomInput from '../utils/CustomInput';
 
 interface UserProps {
     firstname: string, 
@@ -67,18 +68,15 @@ const NewAthleteForm = () => {
             name='firstname'
             control={control}
             rules={{required: true, minLength: 4}}
-            render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput 
-                    style={[texts.subLabel, styles.input]}
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    placeholder='Nome'
-                    placeholderTextColor='#ccc'
-                />
+            render={({ field: { onChange, value } }) => (
+                <CustomInput 
+                    placeholder='Nome' 
+                    onChange={onChange} 
+                    value={value} 
+                /> 
             )}    
             />
-            {errors.firstname && <Text style={[texts.tinyLabel, {color: Colors.error }]}>Errore</Text>}        
+            {errors.firstname && <Text style={[texts.tinyLabel, {color: Colors.error }]}>Nome mancante o troppo corto</Text>}        
             </View>
 
             <View style={[styles.inputContainer]}>
@@ -86,18 +84,15 @@ const NewAthleteForm = () => {
             name='lastname'
             control={control}
             rules={{required: true, minLength: 4}}
-            render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput 
-                    style={[texts.subLabel, styles.input]}
-                    onChangeText={onChange}
-                    onBlur={onBlur}
+            render={({ field: { onChange, value } }) => (
+                <CustomInput
                     value={value}
                     placeholder='Cognome'
-                    placeholderTextColor='#ccc'
-                />
+                    onChange={onChange}
+                /> 
             )}    
             />
-            {errors.lastname && <Text style={[texts.tinyLabel, {color: Colors.error }]}>Errore</Text>}        
+            {errors.lastname && <Text style={[texts.tinyLabel, {color: Colors.error }]}>Nome mancante o troppo corto</Text>}        
             </View>
 
             <View style={[styles.inputContainer, {flexDirection: 'row'}]}>
@@ -119,7 +114,7 @@ const NewAthleteForm = () => {
                 {datePickerVisible && (
                         <DateTimePickerModal
                         testID="dateTimePicker"
-                        textColor='#fff'
+                        textColor='#cc'
                         value={birthdate}
                         mode="date"
                         display={Platform.OS === 'ios' ? 'spinner' : 'default'}
@@ -134,7 +129,7 @@ const NewAthleteForm = () => {
                 <SelectableGroupList onSelection={handleGroupSelection} /> 
             </View>
 
-            <CustomButton title='Aggiungi' handleClick={handleSubmit(onSubmit)} /> 
+            <CustomButton title='Aggiungi' size='large' handleClick={handleSubmit(onSubmit)} /> 
         </View>
         </KeyboardAvoidingView>
     )

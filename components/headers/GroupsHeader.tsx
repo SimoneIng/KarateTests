@@ -10,13 +10,14 @@ import { router } from 'expo-router'
 const GroupsHeader = () => {
 
   const { top } = useSafeAreaInsets(); 
+
   return ( 
     <View style={[styles.header, 
       { 
         paddingTop: Platform.OS === 'ios' ? top : top+10, 
         padding: 20,
       }]}>
-      <Text style={[{ color: Colors.primary }, texts.title]}>Gruppi</Text>
+      <Text style={[{ color: Colors.primary }, texts.subTitle]}>Karate Tests</Text>
       <TouchableOpacity onPress={() => router.push('/settings/settings')}>
         <Ionicons name='settings' size={24} color={Colors.primary} />
       </TouchableOpacity> 
@@ -26,9 +27,6 @@ const GroupsHeader = () => {
 
 const styles = StyleSheet.create({
   header: { 
-    borderBottomWidth: 0.5, 
-    borderColor: Colors.primary, 
-    backgroundColor: Colors.background, 
     flexDirection: 'row', 
     justifyContent: 'space-between',
     alignItems: 'center'

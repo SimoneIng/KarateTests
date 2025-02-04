@@ -5,6 +5,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useAuthStore } from '@/database/state';
 import { router } from 'expo-router';
 import { Colors } from '@/constants/Colors';
+import CustomInput from '../utils/CustomInput';
+import CustomButton from '../utils/CustomButton';
 
 const LoginForm = () => {
 
@@ -42,21 +44,12 @@ const LoginForm = () => {
         <View style={styles.container}>
             <View style={[styles.inputContainer]}>
             <Text style={[{ color: Colors.primary }, texts.label]}>Email</Text>
-            <TextInput style={[styles.input, texts.subLabel, { color: Colors.primary }]} 
-                placeholder='Inserisci Email'
-                placeholderTextColor={Colors.secondary}
-                onChangeText={(string) => setEmail(string)}
-            />
+            <CustomInput placeholder='Inserisci Email' onChange={(string) => setEmail(string)} />
             </View>
 
             <View style={[styles.inputContainer]}>
                 <Text style={[{ color: Colors.primary }, texts.label]}>Password</Text>
-                <TextInput style={[styles.input, texts.subLabel, { color: Colors.primary }]} 
-                    placeholder='Inserisci Password'
-                    secureTextEntry={true}
-                    placeholderTextColor={Colors.secondary}
-                    onChangeText={(string) => setPassword(string)}
-                />
+                <CustomInput placeholder='Inserisci Password' secureText={true} onChange={(string) => setPassword(string)} /> 
             </View>
         </View>
 
@@ -65,12 +58,13 @@ const LoginForm = () => {
             <Text style={[{ color: Colors.primary }, texts.tinyLabel]}>{error}</Text>
         }
 
-        <TouchableOpacity style={[styles.button, { backgroundColor: Colors.cardBackground }]}
-            onPress={handleSubmit}
-        >
-            <Text style={[{ color: Colors.primary }, texts.label]}>Accedi</Text>
-            <Ionicons name='log-in-outline' size={28} color={Colors.primary} />
-        </TouchableOpacity>
+        <CustomButton 
+            title='Accedi' 
+            handleClick={handleSubmit}
+            bgColor={Colors.accent}
+            icon='log-in-outline'
+            size='large'
+        /> 
 
     </View>
     </KeyboardAvoidingView>
@@ -89,12 +83,6 @@ const styles = StyleSheet.create({
     inputContainer: {
         gap: 5,
     },
-    input: {
-        borderWidth: 0.5, 
-        borderColor: '#ccc', 
-        borderRadius: 10,
-        padding: 10, 
-    }, 
     button: {
         borderRadius: 10, 
         padding: 10,

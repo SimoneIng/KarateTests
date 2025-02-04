@@ -20,7 +20,7 @@ const settings = () => {
                 <Text style={[texts.label, {color: Colors.primary}]}>Profilo {role}</Text>
                 <Text style={[texts.subLabel, {color: Colors.primary}]}>Accesso: {user?.email}</Text>
             </View>
-            <CustomButton title='Logout' handleClick={handleLogout} />
+            <CustomButton title='Logout' size='large' handleClick={handleLogout} />
         </View>
     )
 }
@@ -28,6 +28,7 @@ const settings = () => {
 const styles = StyleSheet.create({
     page: {
         flex: 1,
+        backgroundColor: Colors.background
     }, 
     content: {
         padding: 20, 
