@@ -16,28 +16,28 @@ interface TestType {
   enum_value: string, 
 }
 
-// interface Exercize {
-//   name: string, 
-//   value: number,
-//   metric: boolean Ad esempio, 1 se un valore minore è positivo, 0 se è negativo.
-// }
+interface ExercizeMetric {
 
-// interface DoubleValueExercize {
-//   name: string, 
-//   dxValue: number, 
-//   sxValue: number, 
-//   metric: boolean
-// }
+}
 
-// interface ExercizeGroup {
-//   title: string, 
-//   exercizes: Exercize[] | DoubleValueExercize[], 
-// }
+interface Exercize {
+  id: number, 
+  name: string, 
+  type: 'single' | 'double', 
+  metric: string, 
+  comparision: boolean
+}
 
-// interface TestValues {
-//   test_type: string, 
-//   exercizes: ExercizeGroup[], 
-// }
+interface ExercizeWithReps extends Exercize {
+  reps: number, 
+}
+
+interface ExercizeGroup {
+  id: number, 
+  title: string, 
+  exercizes: ExercizeWithReps[] 
+}
+
 
 interface StandardTestValues {
     "Altezza": number;
@@ -113,5 +113,8 @@ export {
     Test, 
     StandardTestValues,
     TestType, 
-    AthleteGroupWithAthletes
+    AthleteGroupWithAthletes,
+    ExercizeGroup,
+    Exercize, 
+    ExercizeWithReps, 
 }

@@ -1,5 +1,5 @@
 import CustomHeader from "@/components/headers/CustomHeader";
-import GroupsHeader from "@/components/headers/GroupsHeader";
+import HomeHeader from "@/components/headers/HomeHeader";
 import { Stack } from "expo-router";
 import { useEffect } from "react";
 import { useAuthStore, useDBStore } from "@/database/state";
@@ -10,7 +10,8 @@ import ModalHeader from "@/components/headers/ModalHeader";
 
 const MainLayout = () => {
 
-  const { isLoadingAthletes, 
+  const { 
+    isLoadingAthletes, 
     isLoadingGroups, 
     isLoadingTests, 
     fetchAthletes,
@@ -55,8 +56,8 @@ const MainLayout = () => {
         }
       }}
     >
-        <Stack.Screen name='groups' options={{
-          header: () => <GroupsHeader />, 
+        <Stack.Screen name='home' options={{
+          header: () => <HomeHeader />, 
         }} /> 
         <Stack.Screen name='group/[id]' options={{
           header: () => <CustomHeader />, 
@@ -78,6 +79,13 @@ const MainLayout = () => {
           animation: 'slide_from_right',
           animationDuration: 900
           }} 
+        />
+        <Stack.Screen name="exercize/[id]" options={{
+          header: () => <CustomHeader />, 
+          presentation: 'fullScreenModal', 
+          animation: 'slide_from_right', 
+          animationDuration: 900
+        }}
         /> 
         <Stack.Screen name='modals/newTest' options={{
           header: () => <ModalHeader />, 

@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 interface Props {
     title: string, 
-    size?: "small" | "large", 
+    size?: "small" | "large" | 'medium', 
     bgColor?: string, 
     icon?: typeof Ionicons.defaultProps, 
     handleClick: () => void; 
@@ -18,10 +18,11 @@ const CustomButton = ({ title, handleClick, size, icon, bgColor }: Props) => {
       style={[styles.button, 
         { backgroundColor: 'black' }, 
         size == "large" && styles.large, 
-        size == 'small' && styles.small
+        size == 'small' && styles.small,
+        size == 'medium' && styles.medium
       ]}
       >
-        <Text style={[size == 'large' && texts.label, size == 'small' && texts.tinyLabel, styles.buttonText, {  color: 'white' }]}>{title}</Text>
+        <Text style={[size == 'medium' && texts.subLabel, size == 'large' && texts.label, size == 'small' && texts.tinyLabel, styles.buttonText, {  color: 'white' }]}>{title}</Text>
         {icon && (
           <Ionicons name={icon} size={size == 'large' ? 28 : 14} color='#fff' /> 
         )}
@@ -47,6 +48,10 @@ const styles = StyleSheet.create({
       }, 
       buttonText: {
         textAlign: 'center',
+      },
+      medium: {
+        padding: 12, 
+        margin: 7
       }
 })
 

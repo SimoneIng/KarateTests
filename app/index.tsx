@@ -80,7 +80,7 @@ const App = () => {
 
     if(user){
         return (
-            <Redirect href='/groups' /> 
+            <Redirect href='/home' /> 
         )
     } else {
         return (

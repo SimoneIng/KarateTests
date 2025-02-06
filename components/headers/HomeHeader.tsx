@@ -7,7 +7,7 @@ import { Platform } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 
-const GroupsHeader = () => {
+const HomeHeader = () => {
 
   const { top } = useSafeAreaInsets(); 
 
@@ -33,4 +33,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default GroupsHeader; 
+export default HomeHeader; 

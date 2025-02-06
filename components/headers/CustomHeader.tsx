@@ -17,6 +17,10 @@ const CustomHeader = () => {
 
     const { role } = useAuthStore(); 
 
+    const removeExercizeGroup = (id: number) => {
+        alert('to implement')
+    }
+
     const handleDelete = async () => {
         const { params, name } = route; 
 
@@ -37,6 +41,10 @@ const CustomHeader = () => {
                 case 'test/[id]': 
                 await removeTest(parseInt(id));
                 router.back(); 
+                break; 
+
+                case 'exercize/[id]': 
+                await removeExercizeGroup(parseInt(id)); 
                 break; 
             }
             

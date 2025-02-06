@@ -6,25 +6,16 @@ import { Colors } from '@/constants/Colors'
 import { router } from 'expo-router'
 import { texts } from '@/styles/texts'
 import CustomButton from '@/components/utils/CustomButton'
-import ExercizesList from '@/components/lists/ExercizesList'
+import ExercizesList from '@/components/lists/ExercizeGroupList'
+import Groups from '@/components/UIElements/Groups'
+import Exercizes from '@/components/UIElements/Exercizes'
 
 const HomeScreen = () => {
 
-  const { groups } = useDBStore();
-  const { role } = useAuthStore();
-
   const [selectedTab, setSelectedTab] = useState(0); 
 
-  useEffect(() => {
-  
-  }, [groups]); 
-
-  const handleNewGroupPress = () => {
-    router.push('/modals/newGroup');
-  }
-
   return (
-    <ScrollView style={[styles.page, { backgroundColor: Colors.background }]}>
+    <ScrollView showsVerticalScrollIndicator={false} style={[styles.page, { backgroundColor: Colors.background }]}>
       
       <View style={[styles.tabs]}>
         <TouchableOpacity 
@@ -41,24 +32,13 @@ const HomeScreen = () => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.row}>
-        <Text style={[texts.subTitle]}>Gruppi</Text>
-        
-        {role === 'coach' || role === 'admin' && 
-          (
-            <CustomButton title='Aggiungi' size='small' handleClick={handleNewGroupPress} icon='add' /> 
-          )
-        } 
-      </View>
-      
-      
-      <GroupsList data={groups} /> 
-
-      {/* <View style={[styles.row]}>
-        <Text style={[texts.label]}>Test ed Esercizi</Text>
-      </View>
-
-      <ExercizesList /> */}
+      {selectedTab === 0 
+        ? (
+          <Groups /> 
+        ) 
+        : (
+          <Exercizes /> 
+        )}
       
     </ScrollView>
   )
@@ -69,12 +49,6 @@ const styles = StyleSheet.create({
     flex: 1, 
     paddingHorizontal: 20,
     paddingTop: 30
-  },
-  row: {
-    flexDirection: 'row', 
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: 10, 
   }, 
   tabs: {
     flexDirection: 'row',

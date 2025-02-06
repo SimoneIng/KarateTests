@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   groupCard: {
     borderRadius: 6,
     padding: 10, 
-    marginVertical: 2,
+    marginVertical: 5,
     shadowColor: '#171717',
     shadowOffset: {width: -2, height: 5},
     shadowOpacity: 0.2,

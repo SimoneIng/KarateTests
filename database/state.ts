@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { supabase } from './supabase'; // Assicurati che supabaseClient sia configurato correttamente
-import { Athlete, AthleteGroup, Test, TestType } from './types'
+import { Athlete, AthleteGroup, Exercize, ExercizeGroup, ExercizeWithReps, Test, TestType } from './types'
 import { RealtimeChannel } from '@supabase/supabase-js';
 
 // Definisci i tipi per l'utente e lo stato di autenticazione
@@ -24,10 +24,12 @@ interface DatabaseState {
   athletes: Athlete[], 
   tests: Test[], 
   test_types: TestType[], 
+  exercizeGroups: ExercizeGroup[], 
 
   isLoadingGroups: boolean,
   isLoadingAthletes: boolean, 
   isLoadingTests: boolean, 
+  isLoadingExercizeGroups: boolean, 
 
 
   subscriptions: RealtimeChannel[], 
@@ -37,6 +39,7 @@ interface DatabaseState {
   fetchGroups: () => Promise<void>, 
   fetchAthletes: () => Promise<void>, 
   fetchTests: () => Promise<void>,
+  fetchExercizeGroups: () => Promise<void>, 
   getTestById: (id: number) => Test | undefined; 
   getTestsByAthleteId: (id: number) => Test[]; 
 
@@ -161,10 +164,12 @@ const useDBStore = create<DatabaseState>((set, get) => ({
   athletes: [],
   tests: [],
   test_types: [],
+  exercizeGroups: [], 
 
   isLoadingGroups: false,
   isLoadingAthletes: false,
   isLoadingTests: false,
+  isLoadingExercizeGroups: false, 
 
   subscriptions: [], // Array per tenere traccia delle subscription
 
@@ -228,6 +233,56 @@ const useDBStore = create<DatabaseState>((set, get) => ({
       set({ isLoadingTests: false });
     }
   },
+
+  fetchExercizeGroups: async () => {
+    set({ isLoadingExercizeGroups: true });
+  
+    try {
+      // Query con Supabase
+      const { data, error } = await supabase
+        .from('exercize_group')
+        .select(`
+          id,
+          title,
+          exercize_in_group (
+            exercize_id,
+            exercize (
+              id, name, type, metric, comparison
+            )
+          )
+        `);
+  
+      if (error) throw error;
+  
+      // Formattazione dei dati per TypeScript
+      const formattedData: ExercizeGroup[] = data.map(group => ({
+        id: group.id,
+        title: group.title,
+        exercizes: group.exercize_in_group.reduce((acc: ExercizeWithReps[], eig: any) => {
+          const existingExercize = acc.find(ex => ex.id === eig.exercize.id);
+          if (existingExercize) {
+            existingExercize.reps += 1;
+          } else {
+            acc.push({
+              id: eig.exercize.id,
+              name: eig.exercize.name,
+              type: eig.exercize.type,
+              metric: eig.exercize.metric,
+              comparision: eig.exercize.comparison,
+              reps: 1,
+            });
+          }
+          return acc;
+        }, [])
+      }));
+  
+      set({ exercizeGroups: formattedData });
+    } catch (error) {
+      console.error('Error fetching exercize groups:', error);
+    } finally {
+      set({ isLoadingExercizeGroups: false });
+    }
+  }, 
 
   addTest: async (athlete_id: number, type: string, testValues: any, date: Date) => {
     try {
@@ -359,7 +414,6 @@ const useDBStore = create<DatabaseState>((set, get) => ({
   getTestsByAthleteId: (id: number) => {
     return get().tests.filter(test => test.athlete_id === id); 
   }, 
-
 
   // Inizializza le subscription per gli aggiornamenti realtime
   initRealtimeSubscriptions: () => {
