@@ -8,6 +8,7 @@ import { useRoute } from '@react-navigation/native';
 import { useAuthStore, useDBStore } from '@/database/state';
 import { texts } from '@/styles/texts';
 import CustomButton from '../utils/CustomButton';
+import { StatusBar } from 'expo-status-bar';
 
 const CustomHeader = () => {
 
@@ -65,9 +66,11 @@ const CustomHeader = () => {
             </TouchableOpacity>
 
             {role === 'coach' || role === 'admin' && (
-                <CustomButton title='Elimina' size='small' handleClick={handleDelete} /> 
+                <CustomButton title='Elimina' size='small' handleLongPress={handleDelete} /> 
             )
             }
+
+          <StatusBar backgroundColor={Colors.cardBackground} style='light' /> 
         </View>
     )
 }

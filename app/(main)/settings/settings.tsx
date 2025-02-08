@@ -1,5 +1,4 @@
 import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
 import CustomButton from '@/components/utils/CustomButton'
 import { useAuthStore } from '@/database/state'
 import { router } from 'expo-router'

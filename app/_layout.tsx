@@ -4,6 +4,7 @@ import { useFonts } from 'expo-font'
 import { SplashScreen } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { Colors } from '@/constants/Colors'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 SplashScreen.preventAutoHideAsync(); 
 
@@ -45,8 +46,10 @@ const AppLayout = () => {
 
   return (
     <>
-      <RootLayout />
-      <StatusBar backgroundColor={Colors.background} style='light' /> 
+      <GestureHandlerRootView style={{flex: 1}}>
+        <RootLayout />
+        <StatusBar backgroundColor={Colors.background} style='light' /> 
+      </GestureHandlerRootView>
     </>
   )
 

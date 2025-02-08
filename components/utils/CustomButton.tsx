@@ -8,15 +8,17 @@ interface Props {
     size?: "small" | "large" | 'medium', 
     bgColor?: string, 
     icon?: typeof Ionicons.defaultProps, 
-    handleClick: () => void; 
+    handleClick?: () => void; 
+    handleLongPress?: () => void; 
 }
 
-const CustomButton = ({ title, handleClick, size, icon, bgColor }: Props) => {
+const CustomButton = ({ title, handleClick, size, icon, handleLongPress, bgColor='black' }: Props) => {
   return (
       <TouchableOpacity
       onPress={handleClick}
+      onLongPress={handleLongPress}
       style={[styles.button, 
-        { backgroundColor: 'black' }, 
+        { backgroundColor: bgColor }, 
         size == "large" && styles.large, 
         size == 'small' && styles.small,
         size == 'medium' && styles.medium

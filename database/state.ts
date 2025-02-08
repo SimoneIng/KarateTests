@@ -40,16 +40,24 @@ interface DatabaseState {
   fetchAthletes: () => Promise<void>, 
   fetchTests: () => Promise<void>,
   fetchExercizeGroups: () => Promise<void>, 
+
   getTestById: (id: number) => Test | undefined; 
   getTestsByAthleteId: (id: number) => Test[]; 
 
   addTest: (athlete_id: number, type: string, testValues: any, date: Date) => Promise<void>, 
   addAthlete: (firstname: string, lastname: string, birthdate: Date, groupId: number) => Promise<void>, 
   addAthleteGroup: (groupName: string) => Promise<void>, 
+  addExercizeGroup: (title: string) => Promise<void>, 
+  addExercizeToExercizeGroup: (exercizeGroupId: number) => Promise<void>, 
 
   removeTest: (testId: number) => Promise<void>, 
   removeAthlete: (athleteId: number) => Promise<void>, 
   removeAthleteGroup: (groupId: number) => Promise<void>, 
+  removeExercizeGroup: (exercizeGroupId: number) => Promise<void>, 
+  removeExercizeFromExercizeGroup: (exercizeGroupId: number, exercizeId: number) => Promise<void>,
+
+
+  updateExercize: (currentExercize: Exercize, updatedExercize: Exercize) => Promise<void>, 
 
 }
 
@@ -350,6 +358,14 @@ const useDBStore = create<DatabaseState>((set, get) => ({
     }
   },
 
+  addExercizeGroup: async (title: string) => {
+    // scrivi
+  }, 
+
+  addExercizeToExercizeGroup: async (exercizeGroupId: number) => {
+    // scrivi
+  }, 
+
   removeTest: async (testId: number) => {
     try {
       const { error } = await supabase
@@ -407,12 +423,24 @@ const useDBStore = create<DatabaseState>((set, get) => ({
     }
   },
 
+  removeExercizeGroup: async (exercizeGroupId: number) => {
+    // scrivi
+  },
+
+  removeExercizeFromExercizeGroup: async (exercizeGroupId: number, exercizeId: number) => {
+    // scrivi
+  },
+
   getTestById: (id: number) => {
     return get().tests.find(test => test.test_id === id)
   },
 
   getTestsByAthleteId: (id: number) => {
     return get().tests.filter(test => test.athlete_id === id); 
+  }, 
+
+  updateExercize: async (currentExercize: Exercize, updatedExercize: Exercize) => {
+    // scrivi
   }, 
 
   // Inizializza le subscription per gli aggiornamenti realtime

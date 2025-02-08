@@ -8,6 +8,7 @@ import { StatusBar } from "expo-status-bar";
 import { Colors } from "@/constants/Colors";
 import ModalHeader from "@/components/headers/ModalHeader";
 
+
 const MainLayout = () => {
 
   const { 
@@ -46,6 +47,7 @@ const MainLayout = () => {
   }
 
   return (
+
     <Stack 
       screenOptions={{
         animation: 'fade',
@@ -63,56 +65,56 @@ const MainLayout = () => {
           header: () => <CustomHeader />, 
           presentation: 'fullScreenModal',
           animation: 'slide_from_right',
-          animationDuration: 900
+          animationDuration: 100
           }} 
         /> 
         <Stack.Screen name='athlete/[id]' options={{
           header: () => <CustomHeader />, 
           presentation: 'fullScreenModal',
           animation: 'slide_from_right',
-          animationDuration: 900
+          animationDuration: 100
           }} 
         /> 
         <Stack.Screen name='test/[id]' options={{
           header: () => <CustomHeader />, 
           presentation: 'fullScreenModal',
           animation: 'slide_from_right',
-          animationDuration: 900
+          animationDuration: 100
           }} 
         />
         <Stack.Screen name="exercize/[id]" options={{
           header: () => <CustomHeader />, 
           presentation: 'fullScreenModal', 
           animation: 'slide_from_right', 
-          animationDuration: 900
+          animationDuration: 100
         }}
         /> 
         <Stack.Screen name='modals/newTest' options={{
           header: () => <ModalHeader />, 
           presentation: 'fullScreenModal',
           animation: 'slide_from_right',
-          animationDuration: 900
+          animationDuration: 100
           }} 
         /> 
         <Stack.Screen name='modals/newAthlete' options={{
           header: () => <ModalHeader />, 
           presentation: 'fullScreenModal',
           animation: 'slide_from_right',
-          animationDuration: 900
+          animationDuration: 100
           }} 
         />
         <Stack.Screen name='modals/newGroup' options={{
           header: () => <ModalHeader />, 
           presentation: 'fullScreenModal',
           animation: 'slide_from_right',
-          animationDuration: 900
+          animationDuration: 100
           }} 
         />      
         <Stack.Screen name='settings/settings' options={{
           header: () => <ModalHeader />, 
           presentation: 'fullScreenModal', 
           animation: 'slide_from_right', 
-          animationDuration: 900
+          animationDuration: 100
           }}
         /> 
     </Stack>

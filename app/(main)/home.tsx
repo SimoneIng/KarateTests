@@ -1,12 +1,8 @@
 import { Text, StyleSheet, ScrollView, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import GroupsList from '@/components/lists/GroupsList'
-import { useAuthStore, useDBStore } from '@/database/state'
+import React, { useState } from 'react'
 import { Colors } from '@/constants/Colors'
 import { router } from 'expo-router'
 import { texts } from '@/styles/texts'
-import CustomButton from '@/components/utils/CustomButton'
-import ExercizesList from '@/components/lists/ExercizeGroupList'
 import Groups from '@/components/UIElements/Groups'
 import Exercizes from '@/components/UIElements/Exercizes'
 

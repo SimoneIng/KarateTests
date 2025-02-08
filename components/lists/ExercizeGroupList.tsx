@@ -41,7 +41,7 @@ const Item = ({ exercizeGroup, onClick }: ItemProps) => {
 
       <View>
         {exercizeGroup.exercizes !== undefined && exercizeGroup.exercizes.map(exercize => (
-          <View>
+          <View key={exercize.id}>
             <View style={[styles.row]}>
 
               <View style={[styles.row]}>
@@ -79,6 +79,7 @@ const ExercizeGroupList = ({ exercizeGroups, onClick }: ListProps) => {
       data={exercizeGroups}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({item}) => <Item exercizeGroup={item} onClick={onClick} />}
+      estimatedItemSize={150}
     /> 
   )
 }
