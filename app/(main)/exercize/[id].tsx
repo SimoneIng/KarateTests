@@ -17,7 +17,7 @@ const ExercizeGroupScreen = () => {
   const { id } = useLocalSearchParams(); 
   const { role } = useAuthStore(); 
   const { exercizeGroups } = useDBStore(); 
-  const [exercizeGroup, setExercizeGroup] = useState<ExercizeGroup | null>(null)
+  const [exercizeGroup, setExercizeGroup] = useState<ExercizeGroup>()
   
   const [clickedExercize, setClickedExercize] = useState<ExercizeWithReps | null>(null); 
   const [creatingNewExercize, setCreateNewExercize] = useState<boolean>(false)
@@ -29,13 +29,13 @@ const ExercizeGroupScreen = () => {
     const exercizeGroupId = parseInt(id as string);
     const exercizeGroup = exercizeGroups.find(exercizeGroup => exercizeGroup.id === exercizeGroupId);
 
-    if(exercizeGroup){
+    if(exercizeGroup !== undefined){
       setExercizeGroup(exercizeGroup)
     } else {
       router.back(); 
     }
 
-  }, [])
+  }, [exercizeGroup])
 
   const handleExercizeClick = (id: number) => {
 
@@ -62,7 +62,8 @@ const ExercizeGroupScreen = () => {
   }
 
   const handleFormSubmit = () => {
-
+    setCreateNewExercize(false)
+    setBottomSheetIsVisible(false)
   }
   
   return (
@@ -95,11 +96,11 @@ const ExercizeGroupScreen = () => {
         isVisible={bottomSheetIsVisible}
         onDismiss={handleDismiss}    
         > 
-          {clickedExercize && (
-            <ExercizeView exercize={clickedExercize} /> 
+          {(clickedExercize && exercizeGroup !== undefined) && (
+            <ExercizeView exercize={clickedExercize} exercizeGroupId={exercizeGroup.id} onAction={handleDismiss} /> 
           )}
-          {creatingNewExercize && (
-            <NewExercizeForm onConfirm={handleFormSubmit} /> 
+          {(creatingNewExercize && exercizeGroup !== undefined) && (
+            <NewExercizeForm exercizeGroupId={exercizeGroup.id} onConfirm={handleFormSubmit} /> 
           )}
       </CustomBottomSheet>
       </BottomSheetModalProvider>

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ExercizeWithReps } from '@/database/types'
 import { FlashList } from '@shopify/flash-list'
 import { texts } from '@/styles/texts'
@@ -42,6 +42,7 @@ const EmptyList = () => {
 }
 
 const ExercizeList = ({ exercizeList, onClick }: ListProps) => {
+
   return (
     <View>
       <View style={[styles.row]}>

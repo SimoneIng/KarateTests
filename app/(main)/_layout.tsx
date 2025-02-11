@@ -109,7 +109,14 @@ const MainLayout = () => {
           animation: 'slide_from_right',
           animationDuration: 100
           }} 
-        />      
+        /> 
+        <Stack.Screen name='modals/newExercizeGroup' options={{
+          header: () => <ModalHeader />, 
+          presentation: 'fullScreenModal',
+          animation: 'slide_from_right',
+          animationDuration: 100
+          }} 
+        />     
         <Stack.Screen name='settings/settings' options={{
           header: () => <ModalHeader />, 
           presentation: 'fullScreenModal', 

@@ -1,32 +1,38 @@
 import { View, Text, StyleSheet } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { texts } from '@/styles/texts'
 import GroupsList from '../lists/GroupsList'
 import CustomButton from '../utils/CustomButton'
 import { useDBStore, useAuthStore } from '@/database/state'
 import { router } from 'expo-router'
 import ExercizesList from '../lists/ExercizeGroupList'
+import CustomBottomSheet from '../utils/BottomSheet'
+import NewExercizeGroupForm from '../forms/NewExercizeGroupForm'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 
 const Exercizes = () => {
 
-    const { exercizeGroups, fetchExercizeGroups } = useDBStore();
+    const { exercizeGroups, fetchExercizeGroups, fetchMetricTypes } = useDBStore();
     const { role } = useAuthStore();
 
     useEffect(() => {
-        fetchExercizeGroups()
+      fetchMetricTypes()
     }, [])
 
-    const handleNewExercizeGroup = () => {
-      alert('to implement')
-    }
+    useEffect(() => {
+        fetchExercizeGroups()
+    }, [exercizeGroups])
 
     const handleExercizeGroupClick = (id: number) => {
       router.push(`/exercize/${id.toString()}`); 
     }
 
+    const handleNewExercizeGroup = () => {
+      router.push('/modals/newExercizeGroup')
+    }
+
     return (
       <View> 
-
           <View style={styles.row}>
               <Text style={[texts.subTitle]}>Esercizi</Text>
               {role === 'coach' || role === 'admin' && 
@@ -37,7 +43,7 @@ const Exercizes = () => {
           </View>
 
           <ExercizesList exercizeGroups={exercizeGroups} onClick={handleExercizeGroupClick} />
-      
+          
       </View>
     )
 }

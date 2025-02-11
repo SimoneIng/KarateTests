@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { supabase } from './supabase'; // Assicurati che supabaseClient sia configurato correttamente
-import { Athlete, AthleteGroup, Exercize, ExercizeGroup, ExercizeWithReps, Test, TestType } from './types'
+import { Athlete, AthleteGroup, Exercize, ExercizeGroup, ExercizeMetrics, ExercizeWithReps, Test, TestType } from './types'
 import { RealtimeChannel } from '@supabase/supabase-js';
 
 // Definisci i tipi per l'utente e lo stato di autenticazione
@@ -24,6 +24,7 @@ interface DatabaseState {
   athletes: Athlete[], 
   tests: Test[], 
   test_types: TestType[], 
+  metric_types: ExercizeMetrics, 
   exercizeGroups: ExercizeGroup[], 
 
   isLoadingGroups: boolean,
@@ -36,6 +37,7 @@ interface DatabaseState {
   initRealtimeSubscriptions: () => void, 
   
   fetchTestTypes: () => Promise<void>, 
+  fetchMetricTypes: () => Promise<void>, 
   fetchGroups: () => Promise<void>, 
   fetchAthletes: () => Promise<void>, 
   fetchTests: () => Promise<void>,
@@ -43,12 +45,13 @@ interface DatabaseState {
 
   getTestById: (id: number) => Test | undefined; 
   getTestsByAthleteId: (id: number) => Test[]; 
+  getExercizeGroupById: (id: number) => ExercizeGroup | undefined; 
 
   addTest: (athlete_id: number, type: string, testValues: any, date: Date) => Promise<void>, 
   addAthlete: (firstname: string, lastname: string, birthdate: Date, groupId: number) => Promise<void>, 
   addAthleteGroup: (groupName: string) => Promise<void>, 
-  addExercizeGroup: (title: string) => Promise<void>, 
-  addExercizeToExercizeGroup: (exercizeGroupId: number) => Promise<void>, 
+  addExercizeGroup: (title: string, exercizes: ExercizeWithReps[]) => Promise<void>, 
+  addExercizeToExercizeGroup: (exercizeGroupId: number, exercize: Omit<ExercizeWithReps, 'id'>) => Promise<void>, 
 
   removeTest: (testId: number) => Promise<void>, 
   removeAthlete: (athleteId: number) => Promise<void>, 
@@ -172,6 +175,7 @@ const useDBStore = create<DatabaseState>((set, get) => ({
   athletes: [],
   tests: [],
   test_types: [],
+  metric_types: [], 
   exercizeGroups: [], 
 
   isLoadingGroups: false,
@@ -193,6 +197,18 @@ const useDBStore = create<DatabaseState>((set, get) => ({
       console.log(error);
     }
   },
+
+  fetchMetricTypes: async () => {
+    try {
+      const { data, error } = await supabase.rpc('get_metric_types'); 
+
+      if(error) throw error; 
+
+      set({ metric_types: data })
+    } catch(error) {
+      console.log(error); 
+    }
+  }, 
 
   fetchGroups: async () => {
     set({ isLoadingGroups: true });
@@ -276,7 +292,7 @@ const useDBStore = create<DatabaseState>((set, get) => ({
               name: eig.exercize.name,
               type: eig.exercize.type,
               metric: eig.exercize.metric,
-              comparision: eig.exercize.comparison,
+              comparison: eig.exercize.comparison,
               reps: 1,
             });
           }
@@ -358,14 +374,61 @@ const useDBStore = create<DatabaseState>((set, get) => ({
     }
   },
 
-  addExercizeGroup: async (title: string) => {
-    // scrivi
+  addExercizeGroup: async (title: string, exercizes: ExercizeWithReps[]) => {
+    try {
+      const { data, error } = await supabase
+      .from('exercize_group')
+      .insert([{
+        title: title
+      }])
+      .select()
+
+      if(error) throw error; 
+
+      const createdGroup = { ...data[0], exercizes: []} as ExercizeGroup;
+
+      set((state) => {
+        return { exercizeGroups: [...state.exercizeGroups, createdGroup] }
+      })
+
+      // per ogni esercizio, aggiungerlo (fare successivamente)
+
+    } catch(error) {
+      console.log('error', error);
+    }
   }, 
 
-  addExercizeToExercizeGroup: async (exercizeGroupId: number) => {
-    // scrivi
-  }, 
+  addExercizeToExercizeGroup: async (exercizeGroupId: number, exercize: Omit<ExercizeWithReps, 'id'>) => {
+    try {
+      // Aggiungere l'esercizio
+      const { data, error } = await supabase.from('exercize').insert([{
+        name: exercize.name,
+        type: exercize.type, 
+        comparison: exercize.comparison,
+        metric: exercize.metric
+      }]).select();
+  
+      if (error) throw error;
+  
+      const createdExercize = { ...data[0], reps: exercize.reps } as ExercizeWithReps;
 
+      // Per ogni rep, aggiungere una riga in exercize_in_group 
+      for (let index = 1; index <= exercize.reps; index++) {
+        const { error } = await supabase.from('exercize_in_group').insert([{
+          exercize_id: createdExercize.id, 
+          exercize_group_id: exercizeGroupId
+        }]);
+  
+        if (error) throw error;
+      }
+  
+      // Aggiornare lo stato
+
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  
   removeTest: async (testId: number) => {
     try {
       const { error } = await supabase
@@ -424,11 +487,61 @@ const useDBStore = create<DatabaseState>((set, get) => ({
   },
 
   removeExercizeGroup: async (exercizeGroupId: number) => {
-    // scrivi
+    try {
+
+      // rimuovi prima tutti gli esercizi associati a questo gruppo
+      const groupToRemove = get().exercizeGroups.find(group => group.id === exercizeGroupId);
+      console.log(groupToRemove); 
+      groupToRemove?.exercizes.forEach(async exercize => {
+        const { error } = await supabase
+        .from('exercize')
+        .delete()
+        .eq('id', exercize.id);
+
+        if(error) throw error;
+      })
+
+      const { error } = await supabase
+      .from('exercize_group')
+      .delete()
+      .eq('id', exercizeGroupId); 
+
+      if(error) throw error; 
+
+      set((state) => {
+        const updatedGroups = state.exercizeGroups.filter(group => group.id !== exercizeGroupId); 
+        return { exercizeGroups: updatedGroups }
+      }); 
+      
+    } catch(error) {
+      console.log('Error', error); 
+    }
   },
 
   removeExercizeFromExercizeGroup: async (exercizeGroupId: number, exercizeId: number) => {
-    // scrivi
+    // rimuovi esercizio 
+    try {
+      const { error } = await supabase
+       .from('exercize')
+       .delete()
+       .eq('id', exercizeId); 
+  
+       if(error) throw error; 
+
+      // rimuovi ogni riga (groupId, exercizeId) da exercize_in_group sul db 
+      const { error: deleteError } = await supabase
+       .from('exercize_in_group')
+       .delete()
+       .eq('exercize_id', exercizeId)
+       .eq('exercize_group_id', exercizeGroupId)
+
+      if(deleteError) throw deleteError; 
+
+      // aggiorna lo stato
+
+    } catch(error) {
+      console.log(error)
+    }
   },
 
   getTestById: (id: number) => {
@@ -437,6 +550,10 @@ const useDBStore = create<DatabaseState>((set, get) => ({
 
   getTestsByAthleteId: (id: number) => {
     return get().tests.filter(test => test.athlete_id === id); 
+  }, 
+
+  getExercizeGroupById: (id: number) => {
+    return get().exercizeGroups.find(exercizeGroup => exercizeGroup.id === id);
   }, 
 
   updateExercize: async (currentExercize: Exercize, updatedExercize: Exercize) => {

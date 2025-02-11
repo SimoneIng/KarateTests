@@ -34,6 +34,7 @@ const Groups = () => {
         </View>
     
         <GroupsList data={groups} /> 
+        
     </View>
   )
 }

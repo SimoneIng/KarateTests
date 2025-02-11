@@ -16,16 +16,14 @@ interface TestType {
   enum_value: string, 
 }
 
-interface ExercizeMetric {
-
-}
+type ExercizeMetrics = string[]; 
 
 interface Exercize {
   id: number, 
   name: string, 
   type: 'single' | 'double', 
   metric: string, 
-  comparision: boolean
+  comparison: boolean
 }
 
 interface ExercizeWithReps extends Exercize {
@@ -113,6 +111,7 @@ export {
     Test, 
     StandardTestValues,
     TestType, 
+    ExercizeMetrics, 
     AthleteGroupWithAthletes,
     ExercizeGroup,
     Exercize, 

@@ -14,13 +14,9 @@ const CustomHeader = () => {
 
     const { top } = useSafeAreaInsets(); 
     const route = useRoute(); 
-    const { removeAthlete, removeAthleteGroup, removeTest } = useDBStore(); 
+    const { removeAthlete, removeAthleteGroup, removeTest, removeExercizeGroup } = useDBStore(); 
 
     const { role } = useAuthStore(); 
-
-    const removeExercizeGroup = (id: number) => {
-        alert('to implement')
-    }
 
     const handleDelete = async () => {
         const { params, name } = route; 
@@ -46,6 +42,7 @@ const CustomHeader = () => {
 
                 case 'exercize/[id]': 
                 await removeExercizeGroup(parseInt(id)); 
+                router.back(); 
                 break; 
             }
             

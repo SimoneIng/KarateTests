@@ -3,12 +3,17 @@ import React from 'react'
 import { ExercizeWithReps } from '@/database/types'
 import { texts } from '@/styles/texts'
 import CustomButton from '../utils/CustomButton'
+import { useDBStore } from '@/database/state'
 
 interface ExercizeProps {
-    exercize: ExercizeWithReps
+  exercizeGroupId: number,
+  exercize: ExercizeWithReps,
+  onAction: () => void, 
 }
 
-const ExercizeView = ({ exercize }: ExercizeProps) => {
+const ExercizeView = ({ exercizeGroupId, exercize, onAction }: ExercizeProps) => {
+
+  const { removeExercizeFromExercizeGroup } = useDBStore(); 
 
   const addExercizeRep = () => {
     alert('to implement')
@@ -20,7 +25,8 @@ const ExercizeView = ({ exercize }: ExercizeProps) => {
   }
 
   const deleteExercize = () => {
-    alert('to implement')
+    removeExercizeFromExercizeGroup(exercizeGroupId, exercize.id)
+    onAction() 
   }
 
   return (

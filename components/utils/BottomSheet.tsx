@@ -27,7 +27,6 @@ const CustomBottomSheet = ({
   }, [onDismiss]);
 
   useEffect(() => {
-    console.log(isVisible)
     if (isVisible) {
       bottomSheetModalRef.current?.present(); 
     } else {
